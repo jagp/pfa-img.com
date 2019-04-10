@@ -34,6 +34,13 @@ module.exports = {
     },
     {
       resolve: 'gatsby-source-filesystem',
+      options: { 
+        name: 'imageRepo',
+        path: `${__dirname}/content/public/img`,
+      },
+    },
+    {
+      resolve: 'gatsby-source-filesystem',
       options: {
         name: 'config',
         path: `${__dirname}/config`,
