@@ -221,7 +221,6 @@ const query = graphql`
         siteLanguage
         ogLanguage
         author
-        twitter
       }
     }
   }
