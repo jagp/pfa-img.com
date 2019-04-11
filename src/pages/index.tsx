@@ -26,7 +26,13 @@ type PageProps = {
     }
     aboutUs: ChildImageSharp
     publicImages: { 
-
+      edges: {
+        node: {
+          title: "title"
+          slug: "slug"
+          cover: ChildImageSharp
+        }
+      }[]
     }
   }
 }
@@ -34,20 +40,15 @@ type PageProps = {
 const Area = styled(animated.div)`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: 35vw 40vw 25vw;
+  grid-template-rows: 20vw;
   grid-template-areas:
-    'first-project about-us about-us'
-    'three-projects three-projects three-projects'
-    'public-images public-images public-images';
+    'public-images public-images public-images public-images public-images';
 
   @media (max-width: ${props => props.theme.breakpoints[3]}) {
     grid-template-columns: repeat(4, 1fr);
     grid-template-rows: 35vw 30vw 30vw 25vw;
 
     grid-template-areas:
-      'first-project first-project about-us about-us'
-      'three-projects three-projects three-projects three-projects'
-      'three-projects three-projects three-projects three-projects'
       'public-images public-images public-images public-images';
   }
 
@@ -98,6 +99,8 @@ const ThreeProjects = styled.div`
 
 const PublicImages = styled(GridItem)`
   grid-area:public-images;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
 `
 
 const Index: React.FunctionComponent<PageProps> = ({ data: { firstProject, threeProjects, aboutUs, publicImages} }) => {
@@ -111,29 +114,30 @@ const Index: React.FunctionComponent<PageProps> = ({ data: { firstProject, three
     <Layout>
       <SEO />
       <Area style={pageAnimation}>
-        <FirstProject to={firstProject.slug}>
+        {/*<FirstProject to={firstProject.slug}>
           <Img fluid={firstProject.cover.childImageSharp.fluid} />
           <span>{firstProject.title}</span>
-        </FirstProject>
-        <AboutUs to="/about">
+        </FirstProject>*/}
+        {/*<AboutUs to="/about">
           <Img fluid={aboutUs.childImageSharp.fluid} />
           <span>About</span>
-        </AboutUs>
-        <ThreeProjects>
+        </AboutUs>*/}
+        {/*<ThreeProjects>
           {threeProjects.edges.map(({ node: project }) => (
             <GridItem to={project.slug} key={project.slug}>
               <Img fluid={project.cover.childImageSharp.fluid} />
               <span>{project.title}</span>
             </GridItem>
           ))}
-        </ThreeProjects>
+          {console.log(threeProjects)}      
+        </ThreeProjects>*/}
+
         <PublicImages>
           {publicImages.edges.map( ({ node : image }) => ( 
             <GridItem>
-              <li>{image.base}</li>
+              <Img fixed={image.fixed} />
             </GridItem>
             ))}
-          </GridItem>
           {console.log(publicImages)}           
         </PublicImages>
           
@@ -147,45 +151,22 @@ export default Index
 
 export const query = graphql`
   query IndexQuery {
-    firstProject: projectsYaml {
-      title
-      slug
-      cover {
-        childImageSharp {
-          fluid(quality: 95, maxWidth: 1200) {
-            ...GatsbyImageSharpFluid_withWebp
-          }
-        }
-      }
-    }
-    threeProjects: allProjectsYaml(limit: 3, skip: 1) {
-      edges {
-        node {
-          title
-          slug
-          cover {
-            childImageSharp {
-              fluid(quality: 95, maxWidth: 1200) {
-                ...GatsbyImageSharpFluid_withWebp
-              }
-            }
-          }
-        }
-      }
-    }
-    aboutUs: file(sourceInstanceName: { eq: "images" }, name: { eq: "about-us" }) {
-      childImageSharp {
-        fluid(quality: 95, maxWidth: 1200) {
-          ...GatsbyImageSharpFluid_withWebp
-        }
-      }
-    }
-    publicImages: allFile {
+    publicImages: allImageSharp {
       edges {
         node {
           id
-          base
-          sourceInstanceName
+          fixed {
+            base64
+            tracedSVG
+            aspectRatio
+            width
+            height
+            src
+            srcSet
+            srcWebp
+            srcSetWebp
+            originalName
+          }
         }
       }
     }
