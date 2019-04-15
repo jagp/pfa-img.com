@@ -8,8 +8,11 @@ import GridItem from '../components/grid-item'
 import SEO from '../components/SEO'
 import { ChildImageSharp } from '../types'
 
+import '../styles/ugly-quick-fix.css'
+
 type PageProps = {
-  data: {
+	data: {
+		/*
     firstProject: {
       title: string
       slug: string
@@ -25,26 +28,31 @@ type PageProps = {
       }[]
     }
     aboutUs: ChildImageSharp
-    publicImages: { 
-      edges: {
-        node: {
-          title: "title"
-          slug: "slug"
-          cover: ChildImageSharp
-        }
-      }[]
-    }
-  }
+    */
+		publicImages: {
+			allImageSharp: {
+				edges: {
+					node: {}
+				}
+			}
+			edges: {
+				node: {
+					image: ChildImageSharp
+				}
+			}[]
+		}
+	}
 }
 
 const Area = styled(animated.div)`
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: 20vw;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: repeat(200, 400px);
+  grid-column-gap: 10px;
   grid-template-areas:
     'public-images public-images public-images public-images public-images';
 
-  @media (max-width: ${props => props.theme.breakpoints[3]}) {
+  @media (max-width: ${(props) => props.theme.breakpoints[3]}) {
     grid-template-columns: repeat(4, 1fr);
     grid-template-rows: 35vw 30vw 30vw 25vw;
 
@@ -52,48 +60,20 @@ const Area = styled(animated.div)`
       'public-images public-images public-images public-images';
   }
 
-  @media (max-width: ${props => props.theme.breakpoints[1]}) {
+  @media (max-width: ${(props) => props.theme.breakpoints[1]}) {
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: repeat(5, 38vw);
 
     grid-template-areas:
-      'first-project about-us'
-      'three-projects three-projects'
-      'three-projects three-projects'
-      'three-projects three-projects'
       'public-images public-images';
   }
 
-  @media (max-width: ${props => props.theme.breakpoints[0]}) {
+  @media (max-width: ${(props) => props.theme.breakpoints[0]}) {
     grid-template-columns: 1fr;
     grid-template-rows: repeat(6, 50vw);
 
     grid-template-areas:
-      'first-project'
-      'about-us'
-      'three-projects'
-      'three-projects'
-      'three-projects'
       'public-images';
-  }
-`
-
-const FirstProject = styled(GridItem)`
-  grid-area: first-project;
-`
-
-const AboutUs = styled(GridItem)`
-  grid-area: about-us;
-`
-
-const ThreeProjects = styled.div`
-  grid-area: three-projects;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-
-  @media (max-width: ${props => props.theme.breakpoints[1]}) {
-    grid-template-columns: 1fr;
-    grid-template-rows: 1fr 1fr 1fr;
   }
 `
 
@@ -103,72 +83,49 @@ const PublicImages = styled(GridItem)`
   grid-template-columns: repeat(3, 1fr);
 `
 
-const Index: React.FunctionComponent<PageProps> = ({ data: { firstProject, threeProjects, aboutUs, publicImages} }) => {
-  const pageAnimation = useSpring({
-    config: config.slow,
-    from: { opacity: 0 },
-    to: { opacity: 1 },
-  })
+const Index: React.FunctionComponent<PageProps> = ({ data }) => {
+	const pageAnimation = useSpring({
+		config: config.slow,
+		from: { opacity: 0 },
+		to: { opacity: 1 }
+	})
 
-  return (
-    <Layout>
-      <SEO />
-      <Area style={pageAnimation}>
-        {/*<FirstProject to={firstProject.slug}>
-          <Img fluid={firstProject.cover.childImageSharp.fluid} />
-          <span>{firstProject.title}</span>
-        </FirstProject>*/}
-        {/*<AboutUs to="/about">
-          <Img fluid={aboutUs.childImageSharp.fluid} />
-          <span>About</span>
-        </AboutUs>*/}
-        {/*<ThreeProjects>
-          {threeProjects.edges.map(({ node: project }) => (
-            <GridItem to={project.slug} key={project.slug}>
-              <Img fluid={project.cover.childImageSharp.fluid} />
-              <span>{project.title}</span>
-            </GridItem>
-          ))}
-          {console.log(threeProjects)}      
-        </ThreeProjects>*/}
-
-        <PublicImages>
-          {publicImages.edges.map( ({ node : image }) => ( 
-            <GridItem>
-              <Img fixed={image.fixed} />
-            </GridItem>
-            ))}
-          {console.log(publicImages)}           
-        </PublicImages>
-          
-
-      </Area>
-    </Layout>
-  )
+	return (
+		<Layout>
+			<SEO />
+			<Area style={pageAnimation}>
+				{data.allImageSharp.edges.map(({ node }) => (
+					<GridItem to="#">
+						<Img fixed={node.fixed} />
+					</GridItem>
+				))}
+			</Area>
+		</Layout>
+	)
 }
 
 export default Index
 
 export const query = graphql`
-  query IndexQuery {
-    publicImages: allImageSharp {
-      edges {
-        node {
-          id
-          fixed {
-            base64
-            tracedSVG
-            aspectRatio
-            width
-            height
-            src
-            srcSet
-            srcWebp
-            srcSetWebp
-            originalName
-          }
-        }
-      }
-    }
-  }
+	query IndexQuery {
+		allImageSharp {
+			edges {
+				node {
+					id
+					fixed {
+						base64
+						tracedSVG
+						aspectRatio
+						width
+						height
+						src
+						srcSet
+						srcWebp
+						srcSetWebp
+						originalName
+					}
+				}
+			}
+		}
+	}
 `

@@ -1,12 +1,12 @@
-import React from 'react'
-import styled, { createGlobalStyle, ThemeProvider } from 'styled-components'
-import { graphql, Link, useStaticQuery } from 'gatsby'
-import { readableColor } from 'polished'
-import 'typeface-work-sans'
-import { Box, Flex } from '../elements'
-import theme from '../../config/theme'
-import reset from '../styles/reset'
-import Logo from './logo'
+import React from "react"
+import styled, { createGlobalStyle, ThemeProvider } from "styled-components"
+import { graphql, Link, useStaticQuery } from "gatsby"
+import { readableColor } from "polished"
+import "typeface-work-sans"
+import { Box, Flex } from "../elements"
+import theme from "../../config/theme"
+import reset from "../styles/reset"
+import Logo from "./logo"
 
 const GlobalStyles = createGlobalStyle`
   *::before,
@@ -74,14 +74,14 @@ const GlobalStyles = createGlobalStyle`
     border: 0;
     margin: 0;
     padding: 0;
-    color: black;
+    color: ${theme.colors.primary};
     font-family: 'Work Sans', '-apple-system', 'Roboto', 'Helvetica', 'Arial', sans-serif;
-    background: white;
+    background: ${theme.colors.cream};
     font-size: 18px;
   }
   a {
     transition: all 0.3s ease-in-out;
-    color: black;
+    color: ${theme.colors.cream};;
     text-decoration: underline;
     &:hover,
     &:focus {
@@ -92,66 +92,105 @@ const GlobalStyles = createGlobalStyle`
   ${reset}
 `
 
-const isPartiallyActive = ({ isPartiallyCurrent }: { isPartiallyCurrent: boolean }) => {
-  return isPartiallyCurrent ? { className: 'navlink-active navlink' } : { className: 'navlink' }
+const isPartiallyActive = ({
+  isPartiallyCurrent
+}: {
+  isPartiallyCurrent: boolean
+}) => {
+  return isPartiallyCurrent
+    ? { className: "navlink-active navlink" }
+    : { className: "navlink" }
 }
 
 const PartialNavLink = (props: any) => (
-<Link getProps={isPartiallyActive} {...props}>
-  {props.children}
-</Link>
+  <Link getProps={isPartiallyActive} {...props}>
+    {props.children}
+  </Link>
 )
 
+const SiteNav = styled(Flex)<{ color: string }>`
+  position: fixed;
+  width: 100%;
+  background-color: ${props => props.theme.colors.primary};
+  height: ${props => props.theme.siteNavbarHeight.normal};
+  align-items: center;
+  justify-content: flex-end;
+  z-index: 100;
+  a {
+    text-decoration: none;
+    font-size: ${props => props.theme.fontSizes[3]};
+    line-height: 1.5;
+    &:hover,
+    &:focus {
+      color: ${props => props.theme.colors.cream};
+    }
+    &.navlink-active {
+      color: ${props => props.theme.colors.accent};
+      &:hover,
+      &:focus {
+        color: ${props => props.theme.colors.accent};
+      }
+    }
+    margin-right: 2%;
 
+    @media (max-width: ${props => props.theme.breakpoints[2]}) {
+      font-size: ${props => props.theme.fontSizes[2]};
+      margin-left: ${props => props.theme.space[4]};
+      margin-right: ${props => props.theme.space[4]};
+    }
+
+    @media (max-width: ${props => props.theme.breakpoints[1]}) {
+      font-size: ${props => props.theme.fontSizes[1]};
+      margin-left: ${props => props.theme.space[3]};
+      margin-right: ${props => props.theme.space[3]};
+    }
+
+    @media (max-width: ${props => props.theme.breakpoints[0]}) {
+      font-size: ${props => props.theme.fontSizes[0]};
+      margin-left: ${props => props.theme.space[2]};
+      margin-right: ${props => props.theme.space[2]};
+    }
+  }
+`
+const SiteNavLinks = styled.div``
+
+const LogoWrapper = styled<any>("div")`
+  margin-right: auto;
+  max-height: ${props => props.theme.siteNavbarHeight.normal};
+`
 
 const Wrapper = styled.div`
   display: grid;
-  grid-template-columns: ${props => props.theme.sidebarWidth.big} 1fr;
-  @media (max-width: ${props => props.theme.breakpoints[4]}) {
-    grid-template-columns: ${props => props.theme.sidebarWidth.normal} 1fr;
-  }
-
-  @media (max-width: ${props => props.theme.breakpoints[2]}) {
-    grid-template-columns: 1fr;
-  }
+  grid-template-columns: ${props => props.theme.sidebarWidth.normal} 1fr;
+  padding-top: ${props => props.theme.siteNavbarHeight.normal};
+  height: calc(100vh - ${props => props.theme.siteNavbarHeight.normal});
 `
-
-const SideBarInner = styled(Box)<{ bg: string }>`
-  position: fixed;
-  height: 100%;
-  width: ${props => props.theme.sidebarWidth.big};
-  display: flex;
+const Sidebar = styled(Flex)`
+  grid-column: 1;
   flex-direction: column;
-  flex-wrap: nowrap;
-  justify-content: space-between;
-
-  background: ${props => props.theme.colors.cream};
-
-  @media (max-width: ${props => props.theme.breakpoints[4]}) {
-    width: ${props => props.theme.sidebarWidth.normal};
-  }
-
-  @media (max-width: ${props => props.theme.breakpoints[2]}) {
-    position: relative;
-    width: 100%;
-  }
-
-  svg {
-    fill: ${props => readableColor(`${props.bg}`)};
-  }
+  position: fixed;
+  background-color: ${props => props.theme.colors.secondary};
+  height: calc(100vh - ${props => props.theme.siteNavbarHeight.normal});
+  width: ${props => props.theme.sidebarWidth.normal};
 `
 
-const Nav = styled(Flex)<{ color: string }>`
+const Toolbar = styled(Flex)<{ color: string }>`
+  flex-direction: column;
   a {
     text-decoration: none;
     color: ${props => readableColor(`${props.color}`)};
     font-size: ${props => props.theme.fontSizes[3]};
     line-height: 1.5;
     &:hover,
-    &:focus { color: ${props => props.theme.colors.primary};  }
+    &:focus {
+      color: ${props => props.theme.colors.primary};
+    }
     &.navlink-active {
       color: ${props => props.theme.colors.secondary};
-      &:hover, &:focus { color: ${props => props.theme.colors.accent};  }
+      F &:hover,
+      &:focus {
+        color: ${props => props.theme.colors.accent};
+      }
     }
 
     @media (max-width: ${props => props.theme.breakpoints[2]}) {
@@ -171,20 +210,33 @@ const Nav = styled(Flex)<{ color: string }>`
   }
 `
 
-const Main = styled.main`
-  @media (min-width: calc(${props => props.theme.breakpoints[2]} + 1px)) {
-    grid-column-start: 2;
+const ToolbarInner = styled(Box)<{ bg: string }>`
+  height: 100%;
+  width: ${props => props.theme.sidebarWidth.big};
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  @media (max-width: ${props => props.theme.breakpoints[4]}) {
+    width: ${props => props.theme.sidebarWidth.normal};
+  }
+
+  @media (max-width: ${props => props.theme.breakpoints[2]}) {
+    position: relative;
+    width: 100%;
   }
 `
 
+const Main = styled.main`
+  grid-column: 2;
+`
+
 const Footer = styled.footer<{ color: string }>`
-  position: fixed;
-  width: ${props => props.theme.sidebarWidth.big};
+  width: 100%;
   bottom: 0;
-
-  background: ${props => props.theme.colors.primary};
-
-  color: ${props => readableColor(`${props.color}`, `${props.theme.colors.cream}`, '#f2e4d6')};
+  position: absolute;
+  color: ${props =>
+    readableColor(`${props.color}`, `${props.theme.colors.cream}`, "#f2e4d6")};
 
   a {
     color: ${props => readableColor(`${props.color}`)};
@@ -207,7 +259,7 @@ const Footer = styled.footer<{ color: string }>`
 type LayoutProps = { children: React.ReactNode } & typeof defaultProps
 
 const defaultProps = {
-  color: 'white',
+  color: "white"
 }
 
 interface QueryResult {
@@ -228,43 +280,49 @@ const Layout = ({ children, color }: LayoutProps) => {
     <ThemeProvider theme={theme}>
       <>
         <GlobalStyles />
+        <SiteNav as="nav" flexWrap="nowrap" flexDirection="row">
+          <LogoWrapper>
+            <Logo height={theme.siteNavbarHeight.normal} />
+          </LogoWrapper>
+          <SiteNavLinks>
+            {data.navigation.edges.map(({ node: item }) => (
+              <PartialNavLink to={item.link} key={item.name}>
+                {item.name}
+              </PartialNavLink>
+            ))}
+          </SiteNavLinks>
+        </SiteNav>
         <Wrapper>
-          <SideBarInner bg={color} as="aside" p={[6, 6, 8]}>
-            <Flex
-              flexWrap="nowrap"
-              flexDirection={['row', 'row', 'row', 'column']}
-              alignItems={['center', 'center', 'center', 'flex-start']}
-              justifyContent="space-between"
-            >
-              <Box width={['3rem', '4rem', '5rem', '6rem']}>
-                <Link to="#" aria-label="Pete For America Image Warehouse, Back to Home">
-                  <Logo 
-                    height="300" width="300" 
-                  />
-                </Link>
-              </Box>
-              <Nav
-                color={color}
-                mt={[0, 0, 0, 10]}
-                as="nav"
+          <Sidebar>
+            <Toolbar color={color} as="aside" p={[6, 6, 8]}>
+              <Flex
                 flexWrap="nowrap"
-                flexDirection={['row', 'row', 'row', 'column']}
-                alignItems="flex-start"
+                flexDirection={["row", "row", "row", "column"]}
+                alignItems={["center", "center", "center", "flex-start"]}
+                justifyContent="space-between"
               >
-                {data.navigation.edges.map(({ node: item }) => (
-                  <PartialNavLink to={item.link} key={item.name}>
-                    {item.name}
-                  </PartialNavLink>
-                ))}
-              </Nav>
-            </Flex>
-          </SideBarInner>
+                <ToolbarInner
+                  color={color}
+                  mt={[0, 0, 0, 10]}
+                  flexWrap="nowrap"
+                  flexDirection={["row", "row", "row", "column"]}
+                  alignItems="flex-start"
+                >
+                  {data.navigation.edges.map(({ node: item }) => (
+                    <PartialNavLink to={item.link} key={item.name}>
+                      {item.name}
+                    </PartialNavLink>
+                  ))}
+                </ToolbarInner>
+              </Flex>
+            </Toolbar>
+            <Footer color={color}>
+              <Box p={[1, 1, 3]} fontSize={0}>
+                Donate to Pete For America Here.
+              </Box>
+            </Footer>
+          </Sidebar>
           <Main>{children}</Main>
-          <Footer color={color}>
-            <Box p={[6, 6, 8]} fontSize={0}>
-              Donate to Pete For America Here.
-            </Box>
-          </Footer>
         </Wrapper>
       </>
     </ThemeProvider>
@@ -278,6 +336,14 @@ Layout.defaultProps = defaultProps
 const query = graphql`
   query LayoutQuery {
     navigation: allNavigationYaml {
+      edges {
+        node {
+          name
+          link
+        }
+      }
+    }
+    toolbarSettings: allNavigationYaml {
       edges {
         node {
           name

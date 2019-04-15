@@ -1,5 +1,5 @@
-import styled from 'styled-components'
-import { animated } from 'react-spring'
+import styled from "styled-components"
+import { animated } from "react-spring"
 
 import {
   space,
@@ -11,10 +11,10 @@ import {
   flexDirection,
   alignItems,
   justifyContent,
-  textAlign,
-} from 'styled-system'
+  textAlign
+} from "styled-system"
 
-export const Box = styled<any>('div')`
+export const Box = styled<any>("div")`
   box-sizing: border-box;
   ${space}
   ${width}
@@ -24,7 +24,7 @@ export const Box = styled<any>('div')`
   ${textAlign}
 `
 
-Box.displayName = 'Box'
+Box.displayName = "Box"
 
 export const AnimatedBox = styled<any>(animated.div)`
   box-sizing: border-box;
@@ -36,9 +36,9 @@ export const AnimatedBox = styled<any>(animated.div)`
   ${textAlign}
 `
 
-AnimatedBox.displayName = 'AnimatedBox'
+AnimatedBox.displayName = "AnimatedBox"
 
-export const Flex = styled<any>('div')`
+export const Flex = styled<any>("div")`
   display: flex;
   ${space}
   ${flexWrap}
@@ -47,7 +47,7 @@ export const Flex = styled<any>('div')`
   ${justifyContent}
 `
 
-Flex.displayName = 'Flex'
+Flex.displayName = "Flex"
 
 export const AnimatedFlex = styled<any>(animated.div)`
   display: flex;
@@ -58,9 +58,9 @@ export const AnimatedFlex = styled<any>(animated.div)`
   ${justifyContent}
 `
 
-AnimatedFlex.displayName = 'AnimatedFlex'
+AnimatedFlex.displayName = "AnimatedFlex"
 
-export const Button = styled<any>('button')`
+export const Button = styled<any>("button")`
   border-radius: 1000rem;
   border: none;
   font-weight: 700;
@@ -70,4 +70,4 @@ export const Button = styled<any>('button')`
   ${color}
 `
 
-Button.displayName = 'Button'
+Button.displayName = "Button"
