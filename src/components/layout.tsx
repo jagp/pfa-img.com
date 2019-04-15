@@ -7,6 +7,7 @@ import { Box, Flex } from "../elements"
 import theme from "../../config/theme"
 import reset from "../styles/reset"
 import Logo from "./logo"
+import ToolbarCheckbox from "./toolbar-checkbox"
 
 const GlobalStyles = createGlobalStyle`
   *::before,
@@ -157,6 +158,9 @@ const SiteNavLinks = styled.div``
 const LogoWrapper = styled<any>("div")`
   margin-right: auto;
   max-height: ${props => props.theme.siteNavbarHeight.normal};
+  width: ${props => props.theme.sidebarWidth.normal};
+  display: flex;
+  justify-content: center;
 `
 
 const Wrapper = styled.div`
@@ -169,6 +173,7 @@ const Sidebar = styled(Flex)`
   grid-column: 1;
   flex-direction: column;
   position: fixed;
+  border-right: 2px solid grey;
   background-color: ${props => props.theme.colors.secondary};
   height: calc(100vh - ${props => props.theme.siteNavbarHeight.normal});
   width: ${props => props.theme.sidebarWidth.normal};
@@ -176,21 +181,14 @@ const Sidebar = styled(Flex)`
 
 const Toolbar = styled(Flex)<{ color: string }>`
   flex-direction: column;
+  font-size: ${props => props.theme.fontSizes[0]};
+  line-height: 1.5;
   a {
     text-decoration: none;
     color: ${props => readableColor(`${props.color}`)};
-    font-size: ${props => props.theme.fontSizes[3]};
-    line-height: 1.5;
     &:hover,
     &:focus {
-      color: ${props => props.theme.colors.primary};
-    }
-    &.navlink-active {
-      color: ${props => props.theme.colors.secondary};
-      F &:hover,
-      &:focus {
-        color: ${props => props.theme.colors.accent};
-      }
+      color: ${props => props.theme.colors.accent};
     }
 
     @media (max-width: ${props => props.theme.breakpoints[2]}) {
@@ -294,24 +292,22 @@ const Layout = ({ children, color }: LayoutProps) => {
         </SiteNav>
         <Wrapper>
           <Sidebar>
-            <Toolbar color={color} as="aside" p={[6, 6, 8]}>
+            <Toolbar color={color} as="aside" p={[1, 1, 4]}>
               <Flex
                 flexWrap="nowrap"
-                flexDirection={["row", "row", "row", "column"]}
-                alignItems={["center", "center", "center", "flex-start"]}
+                alignItems="flex-start"
                 justifyContent="space-between"
               >
                 <ToolbarInner
                   color={color}
-                  mt={[0, 0, 0, 10]}
+                  fontSize={[0]}
                   flexWrap="nowrap"
-                  flexDirection={["row", "row", "row", "column"]}
                   alignItems="flex-start"
                 >
-                  {data.navigation.edges.map(({ node: item }) => (
-                    <PartialNavLink to={item.link} key={item.name}>
-                      {item.name}
-                    </PartialNavLink>
+                  {data.tags.edges.map(({ node: item }) => (
+                    <ToolbarCheckbox space={[1]} title={item.title}>
+                      {item.title}
+                    </ToolbarCheckbox>
                   ))}
                 </ToolbarInner>
               </Flex>
@@ -343,11 +339,10 @@ const query = graphql`
         }
       }
     }
-    toolbarSettings: allNavigationYaml {
+    tags: allTagsYaml {
       edges {
         node {
-          name
-          link
+          title
         }
       }
     }

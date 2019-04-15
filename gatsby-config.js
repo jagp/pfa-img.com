@@ -1,10 +1,10 @@
-require('dotenv').config({
-  path: `.env`,
-});
+require("dotenv").config({
+  path: `.env`
+})
 
-const config = require('./config')
+const config = require("./config")
 
-const pathPrefix = config.pathPrefix === '/' ? '' : config.pathPrefix
+const pathPrefix = config.pathPrefix === "/" ? "" : config.pathPrefix
 
 module.exports = {
   pathPrefix: config.pathPrefix,
@@ -18,59 +18,66 @@ module.exports = {
     headline: config.siteHeadline,
     siteLanguage: config.siteLanguage,
     ogLanguage: config.ogLanguage,
-    author: config.author,
+    author: config.author
   },
   plugins: [
-    'gatsby-plugin-react-helmet',
-    'gatsby-plugin-styled-components',
-    'gatsby-plugin-typescript',
-    'gatsby-transformer-yaml',
+    "gatsby-plugin-react-helmet",
+    "gatsby-plugin-styled-components",
+    "gatsby-plugin-typescript",
+    "gatsby-transformer-yaml",
     {
-      resolve: 'gatsby-source-filesystem',
+      resolve: "gatsby-source-filesystem",
       options: {
-        name: 'projects',
-        path: `${__dirname}/content/projects`,
-      },
+        name: "imageMetadata",
+        path: `${__dirname}/content/metadata`
+      }
     },
     {
-      resolve: 'gatsby-source-filesystem',
-      options: { 
-        name: 'imageRepo',
-        path: `${__dirname}/content/public/img`,
-      },
-    },
-    {
-      resolve: 'gatsby-source-filesystem',
-      options: { 
-        name: 'imageRepo',
-        path: `${__dirname}/content/public/memes`,
-      },
-    },
-    {
-      resolve: 'gatsby-source-filesystem',
+      resolve: "gatsby-source-filesystem",
       options: {
-        name: 'config',
-        path: `${__dirname}/config`,
-      },
+        name: "projects",
+        path: `${__dirname}/content/projects`
+      }
     },
     {
-      resolve: 'gatsby-source-filesystem',
+      resolve: "gatsby-source-filesystem",
       options: {
-        name: 'images',
-        path: `${__dirname}/src/images`,
-      },
+        name: "imageRepo",
+        path: `${__dirname}/content/public/img`
+      }
     },
     {
-      resolve: 'gatsby-plugin-google-analytics',
+      resolve: "gatsby-source-filesystem",
       options: {
-        trackingId: config.googleAnalyticsID,
-      },
+        name: "memeRepo",
+        path: `${__dirname}/content/public/memes`
+      }
     },
-    'gatsby-plugin-sharp',
-    'gatsby-transformer-sharp',
-    'gatsby-plugin-sitemap',
     {
-      resolve: 'gatsby-plugin-manifest',
+      resolve: "gatsby-source-filesystem",
+      options: {
+        name: "config",
+        path: `${__dirname}/config`
+      }
+    },
+    {
+      resolve: "gatsby-source-filesystem",
+      options: {
+        name: "images",
+        path: `${__dirname}/src/images`
+      }
+    },
+    {
+      resolve: "gatsby-plugin-google-analytics",
+      options: {
+        trackingId: config.googleAnalyticsID
+      }
+    },
+    "gatsby-plugin-sharp",
+    "gatsby-transformer-sharp",
+    "gatsby-plugin-sitemap",
+    {
+      resolve: "gatsby-plugin-manifest",
       options: {
         name: config.siteTitle,
         short_name: config.siteTitleShort,
@@ -78,11 +85,11 @@ module.exports = {
         start_url: config.pathPrefix,
         background_color: config.backgroundColor,
         theme_color: config.themeColor,
-        display: 'standalone',
-        icon: 'src/favicon.png',
-      },
+        display: "standalone",
+        icon: "src/favicon.png"
+      }
     },
-    'gatsby-plugin-offline',
-    'gatsby-plugin-netlify',
-  ],
+    "gatsby-plugin-offline",
+    "gatsby-plugin-netlify"
+  ]
 }
