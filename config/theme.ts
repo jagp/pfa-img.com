@@ -14,6 +14,11 @@ interface ThemeShape {
   siteNavbarHeight: {
     [key: string]: string
   }
+  mainGridItem: {
+    [key: string]: {
+      [key: string]: string
+    }
+  }
 }
 
 const theme: ThemeShape = {
@@ -56,6 +61,11 @@ const theme: ThemeShape = {
   siteNavbarHeight: {
     normal: "75px",
     scrolled: "50px"
+  },
+  mainGridItem: {
+    height: {
+      normal: "300px"
+    }
   }
 }
 

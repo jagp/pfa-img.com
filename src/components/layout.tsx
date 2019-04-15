@@ -76,7 +76,6 @@ const GlobalStyles = createGlobalStyle`
     margin: 0;
     padding: 0;
     color: ${theme.colors.primary};
-    font-family: 'Work Sans', '-apple-system', 'Roboto', 'Helvetica', 'Arial', sans-serif;
     background: ${theme.colors.cream};
     font-size: 18px;
   }
@@ -132,7 +131,7 @@ const SiteNav = styled(Flex)<{ color: string }>`
         color: ${props => props.theme.colors.accent};
       }
     }
-    margin-right: 2%;
+    margin-right: 10%;
 
     @media (max-width: ${props => props.theme.breakpoints[2]}) {
       font-size: ${props => props.theme.fontSizes[2]};
@@ -167,8 +166,9 @@ const Wrapper = styled.div`
   display: grid;
   grid-template-columns: ${props => props.theme.sidebarWidth.normal} 1fr;
   padding-top: ${props => props.theme.siteNavbarHeight.normal};
-  height: calc(100vh - ${props => props.theme.siteNavbarHeight.normal});
 `
+//height: calc(100vh - ${props => props.theme.siteNavbarHeight.normal});
+
 const Sidebar = styled(Flex)`
   grid-column: 1;
   flex-direction: column;
@@ -227,6 +227,7 @@ const ToolbarInner = styled(Box)<{ bg: string }>`
 
 const Main = styled.main`
   grid-column: 2;
+  padding: ${theme.space[4]};
 `
 
 const Footer = styled.footer<{ color: string }>`

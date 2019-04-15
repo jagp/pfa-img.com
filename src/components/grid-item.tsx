@@ -1,7 +1,12 @@
-import styled from 'styled-components'
-import { Link } from 'gatsby'
+import styled from "styled-components"
+import { Link } from "gatsby"
+import theme from "../../config/theme"
 
 const GridItem = styled(Link)`
+  border: 1px solid ${theme.colors.primary};
+  padding: ${theme.space[1]};
+  margin-bottom: ${theme.space[8]};
+  border-radius: 5px;
   position: relative;
   > div {
     position: absolute !important;
@@ -31,9 +36,12 @@ const GridItem = styled(Link)`
     }
   }
   &:hover {
-    > div img {
-      transform: scale(1.1);
-    }
+    background: ${theme.colors.accent};
+  }
+  &:after {
+    content"placeholder"display: block;
+    position: absolute;
+    top: 100%;
   }
 `
 
