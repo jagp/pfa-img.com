@@ -14,10 +14,11 @@ const GlobalStyles = createGlobalStyle`
     box-sizing: border-box;
   }
   ::selection {
-    color: white;
-    background-color: #f6993f;
+    color: ${theme.colors.primary};
+    background-color: ${theme.colors.accent};
   }
   html {
+    overflow: auto;
     box-sizing: border-box;
     border: 0;
     margin: 0;
@@ -69,6 +70,7 @@ const GlobalStyles = createGlobalStyle`
     }
   }
   body {
+    overflow: auto;
     border: 0;
     margin: 0;
     padding: 0;
@@ -83,7 +85,7 @@ const GlobalStyles = createGlobalStyle`
     text-decoration: underline;
     &:hover,
     &:focus {
-      color: ${theme.colors.primary};
+      color: ${theme.colors.secondary};
     }
   }
   
@@ -95,10 +97,12 @@ const isPartiallyActive = ({ isPartiallyCurrent }: { isPartiallyCurrent: boolean
 }
 
 const PartialNavLink = (props: any) => (
-  <Link getProps={isPartiallyActive} {...props}>
-    {props.children}
-  </Link>
+<Link getProps={isPartiallyActive} {...props}>
+  {props.children}
+</Link>
 )
+
+
 
 const Wrapper = styled.div`
   display: grid;
@@ -121,7 +125,7 @@ const SideBarInner = styled(Box)<{ bg: string }>`
   flex-wrap: nowrap;
   justify-content: space-between;
 
-  background: ${props => props.bg};
+  background: ${props => props.theme.colors.cream};
 
   @media (max-width: ${props => props.theme.breakpoints[4]}) {
     width: ${props => props.theme.sidebarWidth.normal};
@@ -144,9 +148,10 @@ const Nav = styled(Flex)<{ color: string }>`
     font-size: ${props => props.theme.fontSizes[3]};
     line-height: 1.5;
     &:hover,
-    &:focus,
+    &:focus { color: ${props => props.theme.colors.primary};  }
     &.navlink-active {
-      color: ${props => props.theme.colors.primary};
+      color: ${props => props.theme.colors.secondary};
+      &:hover, &:focus { color: ${props => props.theme.colors.accent};  }
     }
 
     @media (max-width: ${props => props.theme.breakpoints[2]}) {
@@ -177,9 +182,9 @@ const Footer = styled.footer<{ color: string }>`
   width: ${props => props.theme.sidebarWidth.big};
   bottom: 0;
 
-  background: ${props => props.color};
+  background: ${props => props.theme.colors.primary};
 
-  color: ${props => readableColor(`${props.color}`, `${props.theme.colors.grey}`, '#c3c3c3')};
+  color: ${props => readableColor(`${props.color}`, `${props.theme.colors.cream}`, '#f2e4d6')};
 
   a {
     color: ${props => readableColor(`${props.color}`)};
@@ -232,8 +237,10 @@ const Layout = ({ children, color }: LayoutProps) => {
               justifyContent="space-between"
             >
               <Box width={['3rem', '4rem', '5rem', '6rem']}>
-                <Link to="/" aria-label="Pete For America Image Warehouse, Back to Home">
-                  <Logo />
+                <Link to="#" aria-label="Pete For America Image Warehouse, Back to Home">
+                  <Logo 
+                    height="300" width="300" 
+                  />
                 </Link>
               </Box>
               <Nav
@@ -253,9 +260,9 @@ const Layout = ({ children, color }: LayoutProps) => {
             </Flex>
           </SideBarInner>
           <Main>{children}</Main>
-          <Footer color="red">
+          <Footer color={color}>
             <Box p={[6, 6, 8]} fontSize={0}>
-              Donate to Pete For America <a href="https://github.com/LekoArts/gatsby-starter-portfolio-jodie">Here</a>.
+              Donate to Pete For America Here.
             </Box>
           </Footer>
         </Wrapper>

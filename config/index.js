@@ -12,11 +12,10 @@ module.exports = {
   author: 'Pete For America Grassroots Community', // Author for schema.org JSONLD
 
   userTwitter: '@PeteButtigieg', // Twitter Username
-  /*ogSiteName: 'jodie', // Facebook Site Name @todo - determine which pete accounts to link */
   ogLanguage: 'en_US', // og:language
   /* googleAnalyticsID: 'UA-XXXXXX-X', @todo - determine GA*/
 
   // Manifest and Progress color
-  themeColor: '#00c4ff',
-  backgroundColor: '#002855',
+  themeColor: '#1d253c',
+  backgroundColor: '#f2e4d6',
 }
