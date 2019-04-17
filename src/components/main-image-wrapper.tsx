@@ -7,6 +7,7 @@ type Props = {
   title: string
   format: string
   tags: string
+  size: string
 } & typeof defaultProps
 
 const ImageContainer = styled.div`
@@ -53,7 +54,7 @@ const DownloadIcon = styled.div`
   }
 `
 
-const MainImageWrapper = ({ title, format, tags, children }: Props) => (
+const MainImageWrapper = ({ title, format, tags, size, children }: Props) => (
   <ImageContainer>
     <ImageHolder>{children}</ImageHolder>
     <ImageStatsHolder>
