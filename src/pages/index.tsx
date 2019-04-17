@@ -46,32 +46,17 @@ type PageProps = {
 }
 
 const Area = styled(animated.div)`
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  grid-template-rows: repeat(400px);
-  grid-column-gap: 20px;
-  grid-row-gap: 20px;
-  grid-template-areas: "public-images public-images public-images public-images";
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
 
   @media (max-width: ${props => props.theme.breakpoints[3]}) {
-    grid-template-columns: repeat(4, 1fr);
-    grid-template-rows: 35vw 30vw 30vw 25vw;
-
-    grid-template-areas: "public-images public-images public-images public-images";
   }
 
   @media (max-width: ${props => props.theme.breakpoints[1]}) {
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: repeat(5, 38vw);
-
-    grid-template-areas: "public-images public-images";
   }
 
   @media (max-width: ${props => props.theme.breakpoints[0]}) {
-    grid-template-columns: 1fr;
-    grid-template-rows: repeat(6, 50vw);
-
-    grid-template-areas: "public-images";
   }
 `
 
@@ -112,7 +97,7 @@ export const query = graphql`
       edges {
         node {
           id
-          fixed(width: 200) {
+          fixed(width: 200, height: 200) {
             base64
             tracedSVG
             aspectRatio

@@ -3,18 +3,15 @@ import { Link } from "gatsby"
 import theme from "../../config/theme"
 
 const GridItem = styled(Link)`
+  height: 212px;
+  width: 212px;
+  display: flex;
+
   border: 1px solid ${theme.colors.primary};
-  padding: ${theme.space[1]};
-  margin-bottom: ${theme.space[8]};
+  margin: ${theme.space[2]} ${theme.space[2]} ${theme.space[8]}
+    ${theme.space[2]};
   border-radius: 5px;
   position: relative;
-  > div {
-    position: absolute !important;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-  }
   > div img {
     transition: all 0.3s ease 0s !important;
   }

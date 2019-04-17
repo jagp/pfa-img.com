@@ -14,10 +14,11 @@ interface ThemeShape {
   siteNavbarHeight: {
     [key: string]: string
   }
-  mainGridItem: {
-    [key: string]: {
-      [key: string]: string
-    }
+  mainGridItemHeight: {
+    [key: string]: string
+  }
+  metadataRowHeight: {
+    [key: string]: string
   }
 }
 
@@ -62,10 +63,11 @@ const theme: ThemeShape = {
     normal: "75px",
     scrolled: "50px"
   },
-  mainGridItem: {
-    height: {
-      normal: "300px"
-    }
+  mainGridItemHeight: {
+    normal: "200px"
+  },
+  metadataRowHeight: {
+    normal: ".25em"
   }
 }
 

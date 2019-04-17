@@ -1,7 +1,6 @@
 import React from "react"
 import styled from "styled-components"
 import theme from "../../config/theme"
-import icon from "../"
 //import { Link, StaticQuery, graphql } from "gatsby"
 
 type Props = {
@@ -10,13 +9,28 @@ type Props = {
   tags: string
 } & typeof defaultProps
 
+const ImageContainer = styled.div`
+  position: relative;
+  width: 100%;
+  height: 100%;
+  margin: 5px;
+`
+
+const ImageHolder = styled.div`
+  > .gatsby-image-wrapper {
+    height: 100%;
+    width: 100%;
+    position: relative;
+  }
+`
+
 const ImageStatsHolder = styled.div`
   width: 95%;
   font-size: 60%;
   text-transform: uppercase;
   position: absolute;
   top: calc(100% + 5px);
-  height: 2em;
+  height: 2rem;
   color: ${theme.colors.primary};
   display: flex;
   justify-content: space-between;
@@ -36,8 +50,8 @@ const DownloadIcon = styled.div`
 `
 
 const MainImageWrapper = ({ title, format, tags, children }: Props) => (
-  <article>
-    <figure>{children}</figure>
+  <ImageContainer>
+    <ImageHolder>{children}</ImageHolder>
     <ImageStatsHolder>
       <div>{title}</div>
       <div>{format}</div>
@@ -46,7 +60,7 @@ const MainImageWrapper = ({ title, format, tags, children }: Props) => (
         <img src="/download-icon.png" />
       </DownloadIcon>
     </ImageStatsHolder>
-  </article>
+  </ImageContainer>
 )
 
 export default MainImageWrapper
