@@ -75,6 +75,9 @@ const Index: React.FunctionComponent<PageProps> = ({ data }) => {
     to: { opacity: 1 }
   })
 
+  const formatName = uglyName =>
+    uglyName.replace(/[^a-z0-9_/-]/gi, " ").toLowerCase()
+
   return (
     <Layout>
       <SEO />
@@ -83,9 +86,10 @@ const Index: React.FunctionComponent<PageProps> = ({ data }) => {
           <GridItem to="#">
             {console.log(node)}
             <MainImageWrapper
-              title={node.childImageSharp.sizes.originalName}
-              format=".png"
+              title={formatName(node.childImageSharp.sizes.originalName)}
+              format={node.extension}
               tags="tags"
+              size={node.prettySize}
             >
               <Img fixed={node.childImageSharp.fixed} />
             </MainImageWrapper>
