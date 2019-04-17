@@ -11,6 +11,7 @@ import { ChildImageSharp } from "../types"
 
 import "../styles/ugly-quick-fix.css"
 
+/*
 type PageProps = {
   data: {
     /*
@@ -29,7 +30,7 @@ type PageProps = {
       }[]
     }
     aboutUs: ChildImageSharp
-    */
+
     publicImages: {
       allImageSharp: {
         edges: {
@@ -44,6 +45,7 @@ type PageProps = {
     }
   }
 }
+*/
 
 const Area = styled(animated.div)`
   display: flex;
@@ -77,10 +79,15 @@ const Index: React.FunctionComponent<PageProps> = ({ data }) => {
     <Layout>
       <SEO />
       <Area style={pageAnimation}>
-        {data.allImageSharp.edges.map(({ node }) => (
+        {data.allFile.edges.map(({ node }) => (
           <GridItem to="#">
-            <MainImageWrapper title="Placeholder" format=".png" tags="tags">
-              <Img fixed={node.fixed} />
+            {console.log(node)}
+            <MainImageWrapper
+              title={node.childImageSharp.sizes.originalName}
+              format=".png"
+              tags="tags"
+            >
+              <Img fixed={node.childImageSharp.fixed} />
             </MainImageWrapper>
           </GridItem>
         ))}
@@ -92,22 +99,28 @@ const Index: React.FunctionComponent<PageProps> = ({ data }) => {
 export default Index
 
 export const query = graphql`
-  query IndexQuery {
-    allImageSharp {
+  query JaredsLocalImages {
+    allFile(filter: { sourceInstanceName: { eq: "imageRepo" } }) {
+      totalCount
       edges {
         node {
-          id
-          fixed(width: 200, height: 200) {
-            base64
-            tracedSVG
-            aspectRatio
-            width
-            height
-            src
-            srcSet
-            srcWebp
-            srcSetWebp
-            originalName
+          childImageSharp {
+            sizes(maxWidth: 200, maxHeight: 200) {
+              originalName
+              ...GatsbyImageSharpSizes
+            }
+            fixed {
+              base64
+              tracedSVG
+              aspectRatio
+              width
+              height
+              src
+              srcSet
+              srcWebp
+              srcSetWebp
+              originalName
+            }
           }
         }
       }
