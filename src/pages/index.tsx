@@ -104,7 +104,16 @@ export const query = graphql`
       totalCount
       edges {
         node {
+          extension
+          prettySize
           childImageSharp {
+            resize {
+              tracedSVG
+            }
+            original {
+              width
+              height
+            }
             sizes(maxWidth: 200, maxHeight: 200) {
               originalName
               ...GatsbyImageSharpSizes
