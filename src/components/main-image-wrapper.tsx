@@ -6,7 +6,7 @@ import theme from "../../config/theme"
 type Props = {
   title: string
   format: string
-  tags: string
+  tags: string[]
   size: string
 } & typeof defaultProps
 
@@ -26,6 +26,36 @@ const ImageHolder = styled.div`
     max-height: 100%;
     max-width: 100%;
     position: relative;
+  }
+`
+const ImageOverlay = styled.div`
+  width: calc(100% - 10px);
+  height: calc(100% - 10px);
+  color: white;
+  position: absolute;
+  background: transparent;
+  opacity: 0;
+  display: block;
+  z-index: 100;
+  transition: opacity 0.25s;
+  &:hover {
+    opacity: 1;
+    background: linear-gradient(
+      to top,
+      rgba(10, 10, 10, 0.85) 0%,
+      rgba(10, 10, 10, 0.45) 8%,
+      rgba(0, 0, 0, 0) 12.5%
+    );
+  }
+  > aside {
+    position: absolute;
+    bottom: 0;
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    p {
+      margin: 0;
+    }
   }
 `
 
@@ -54,13 +84,25 @@ const DownloadIcon = styled.div`
   }
 `
 
+const OverlayData = ({ tags }) => (
+  <aside>
+    {tags.map(tag => (
+      <p>{tag}</p>
+    ))}
+  </aside>
+)
+
 const MainImageWrapper = ({ title, format, tags, size, children }: Props) => (
   <ImageContainer>
-    <ImageHolder>{children}</ImageHolder>
+    <ImageHolder>
+      <ImageOverlay>
+        <OverlayData tags={tags} />
+      </ImageOverlay>
+      {children}
+    </ImageHolder>
     <ImageStatsHolder>
       <div>{title}</div>
       <div>{format}</div>
-      <div>{tags}</div>
       <DownloadIcon>
         <img src="/download-icon.png" />
       </DownloadIcon>
