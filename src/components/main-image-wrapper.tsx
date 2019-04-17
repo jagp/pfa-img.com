@@ -13,10 +13,14 @@ const ImageContainer = styled.div`
   position: relative;
   width: 100%;
   height: 100%;
-  margin: 5px;
+  padding: 5px;
 `
 
 const ImageHolder = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
   > .gatsby-image-wrapper {
     height: 100%;
     width: 100%;
