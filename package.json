@@ -50,6 +50,7 @@
 		"react-inlinesvg": "^0.8.4",
 		"react-spring": "^8.0.19",
 		"react-typography": "^0.16.19",
+		"sanitize-filename": "^1.6.1",
 		"styled-components": "^4.2.0",
 		"styled-system": "^4.1.0",
 		"typeface-work-sans": "^0.0.72",

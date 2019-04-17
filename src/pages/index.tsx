@@ -7,7 +7,8 @@ import Layout from "../components/layout"
 import GridItem from "../components/grid-item"
 import MainImageWrapper from "../components/main-image-wrapper"
 import SEO from "../components/SEO"
-import { ChildImageSharp } from "../types"
+import * as sanitizeFilename from "sanitize-filename"
+//import { ChildImageSharp } from "../types"
 
 import "../styles/ugly-quick-fix.css"
 
@@ -76,7 +77,7 @@ const Index: React.FunctionComponent<PageProps> = ({ data }) => {
   })
 
   const formatName = uglyName =>
-    uglyName.replace(/[^a-z0-9_/-]/gi, " ").toLowerCase()
+    sanitizeFilename(uglyName, { replacement: "" }).replace(/-/g, " ")
 
   return (
     <Layout>
@@ -84,11 +85,10 @@ const Index: React.FunctionComponent<PageProps> = ({ data }) => {
       <Area style={pageAnimation}>
         {data.allFile.edges.map(({ node }) => (
           <GridItem to="#">
-            {console.log(node)}
             <MainImageWrapper
               title={formatName(node.childImageSharp.sizes.originalName)}
               format={node.extension}
-              tags="tags"
+              tags={["tag1", "tag2"]}
               size={node.prettySize}
             >
               <Img fixed={node.childImageSharp.fixed} />
