@@ -22,8 +22,8 @@ const ImageHolder = styled.div`
   align-items: center;
   height: 100%;
   > .gatsby-image-wrapper {
-    height: 100%;
-    width: 100%;
+    max-height: 100%;
+    max-width: 100%;
     position: relative;
   }
 `
