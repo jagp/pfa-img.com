@@ -38,15 +38,6 @@ const ImageOverlay = styled.div`
   display: block;
   z-index: 100;
   transition: opacity 0.25s;
-  &:hover {
-    opacity: 1;
-    background: linear-gradient(
-      to top,
-      rgba(10, 10, 10, 0.85) 0%,
-      rgba(10, 10, 10, 0.45) 8%,
-      rgba(0, 0, 0, 0) 12.5%
-    );
-  }
   > aside {
     position: absolute;
     bottom: 0;
@@ -58,11 +49,19 @@ const ImageOverlay = styled.div`
     }
   }
 `
+/* deprecated: 
+&:hover {
+  opacity: 1;
+  background: linear-gradient(
+    to top,
+    rgba(10, 10, 10, 0.85) 0%,
+    rgba(10, 10, 10, 0.45) 8%,
+    rgba(0, 0, 0, 0) 12.5%
+  );
+}*/
 
 const ImageStatsHolder = styled.div`
-  width: 95%;
-  font-size: 60%;
-  text-transform: uppercase;
+  width: 98%;
   position: absolute;
   top: calc(100% + 5px);
   height: 2rem;
@@ -70,17 +69,28 @@ const ImageStatsHolder = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: flex-center;
-  div {
-    flex-basis: 20%;
+  .title {
+    width: 80%;
+  }
+  .format {
+    width: 10%;
+  }
+  p {
+    font-family: Arial, sans-serif;
+    font-size: 11px;
+    margin: 0;
+    line-height: 1.2;
+    margin-right: 0;
   }
 `
 
 const DownloadIcon = styled.div`
   margin-left: auto;
-  max-width: 30px;
-  flex-basis: 20px !important;
+  width: 7%;
+  margin-left: 3%;
   img {
     margin-bottom: 0;
+    vertical-align: top;
   }
 `
 
@@ -101,8 +111,12 @@ const MainImageWrapper = ({ title, format, tags, size, children }: Props) => (
       {children}
     </ImageHolder>
     <ImageStatsHolder>
-      <div>{title}</div>
-      <div>{format}</div>
+      <div className="title">
+        <p>{title}</p>
+      </div>
+      <div className="format">
+        <p>{format}</p>
+      </div>
       <DownloadIcon>
         <img src="/download-icon.png" />
       </DownloadIcon>

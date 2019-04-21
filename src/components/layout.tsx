@@ -76,7 +76,7 @@ const GlobalStyles = createGlobalStyle`
     margin: 0;
     padding: 0;
     color: ${theme.colors.primary};
-    background: ${theme.colors.cream};
+    background: ${theme.colors.white};
     font-size: 18px;
   }
   a {
@@ -122,10 +122,10 @@ const SiteNav = styled(Flex)<{ color: string }>`
     line-height: 1.5;
     &:hover,
     &:focus {
-      color: ${props => props.theme.colors.cream};
+      color: ${props => props.theme.colors.tertiary};
     }
     &.navlink-active {
-      color: ${props => props.theme.colors.accent};
+      color: ${props => props.theme.colors.yellow};
       &:hover,
       &:focus {
         color: ${props => props.theme.colors.accent};
@@ -152,7 +152,15 @@ const SiteNav = styled(Flex)<{ color: string }>`
     }
   }
 `
-const SiteNavLinks = styled.div``
+const SiteNavLinks = styled.div`
+  a {
+    font-family: "aktiv-grotesk-extended", sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 22px;
+    font-weight: 700;
+  }
+`
 
 const LogoWrapper = styled<any>("div")`
   margin-right: auto;
@@ -173,10 +181,11 @@ const Sidebar = styled(Flex)`
   grid-column: 1;
   flex-direction: column;
   position: fixed;
-  border-right: 2px solid grey;
-  background-color: ${props => props.theme.colors.secondary};
+  border-right: 4px solid ${props => props.theme.colors.quaternary};
+  background-color: ${props => props.theme.colors.yellow};
   height: calc(100vh - ${props => props.theme.siteNavbarHeight.normal});
   width: ${props => props.theme.sidebarWidth.normal};
+  color: ${props => props.theme.colors.secondary};
 `
 
 const Toolbar = styled(Flex)<{ color: string }>`

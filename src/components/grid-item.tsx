@@ -33,7 +33,7 @@ const GridItem = styled(Link)`
     }
   }
   &:hover {
-    background: ${theme.colors.accent};
+    background: ${theme.colors.secondary};
   }
   &:after {
     content"placeholder"display: block;

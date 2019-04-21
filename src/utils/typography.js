@@ -1,11 +1,12 @@
 import Typography from "typography"
 import theme from "../../config/theme"
+import fonts from "../styles/fonts.css"
 
 const typography = new Typography({
   baseFontSize: "18px",
   baseLineHeight: 1.666,
   headerFontFamily: [
-    "Industry",
+    "Aktiv Grotesque",
     "Avenir Next",
     "Helvetica Neue",
     "Segoe UI",
@@ -13,7 +14,7 @@ const typography = new Typography({
     "Arial",
     "sans-serif"
   ],
-  bodyFontFamily: ["Aktiv Grotesque", "Georgia", "serif"]
+  bodyFontFamily: ["Industry", "Georgia", "serif"]
 })
 
 export default typography

@@ -26,12 +26,16 @@ const theme: ThemeShape = {
   breakpoints: ["480px", "650px", "1000px", "1200px", "1400px"],
   fontSizes: ["1rem", "1.2rem", "1.44rem", "1.728rem", "2.074rem", "2.488rem"],
   colors: {
-    primary: "#1d253c",
-    secondary: "#004d80",
-    tertiary: "#85b6c5",
-    cream: "#f2e4d6" /* cream */,
-    shade: "#58545a",
-    accent: "#f2ba42"
+    primary: "#1d253c" /* Strato Blue */,
+    secondary: "#004d80" /* River Blue */,
+    tertiary: "#85b6c5" /* Blue Sky */,
+    quaternary: "#eef4f8" /*  Calm Blue */,
+    cream: "#f2e4d6" /* Claeys cream */,
+    yellow: "#f2ba42" /* Heartland Yellow */,
+    brown: "#653727" /* Truman Brown */,
+    gold: "#b88a57" /* Buddy Gold */,
+    orange: "#d34e23" /* Rust Belt */,
+    white: "#fff"
   },
   space: [
     "0",
