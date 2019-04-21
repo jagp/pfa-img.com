@@ -3,8 +3,6 @@ import styled from "styled-components"
 import theme from "../../config/theme"
 //import { Link, StaticQuery, graphql } from "gatsby"
 
-type Props = { title: string } & typeof defaultProps
-
 /*
 const SimulatedCheckbox = styled.input`
   & {

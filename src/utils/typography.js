@@ -1,6 +1,6 @@
 import Typography from "typography"
-import theme from "../../config/theme"
-import fonts from "../styles/fonts.css"
+//import theme from "../../config/theme"
+//import fonts from "../styles/fonts.css"
 
 const typography = new Typography({
   baseFontSize: "18px",

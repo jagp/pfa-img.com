@@ -3,13 +3,6 @@ import styled from "styled-components"
 import theme from "../../config/theme"
 //import { Link, StaticQuery, graphql } from "gatsby"
 
-type Props = {
-  title: string
-  format: string
-  tags: string[]
-  size: string
-} & typeof defaultProps
-
 const ImageContainer = styled.div`
   position: relative;
   width: 100%;
@@ -47,6 +40,9 @@ const ImageOverlay = styled.div`
     p {
       margin: 0;
     }
+  }
+  &:hover {
+    opacity: 1;
   }
 `
 /* deprecated: 
@@ -97,12 +93,12 @@ const DownloadIcon = styled.div`
 const OverlayData = ({ tags }) => (
   <aside>
     {tags.map(tag => (
-      <p>{tag}</p>
+      <p key={tag}>{tag}</p>
     ))}
   </aside>
 )
 
-const MainImageWrapper = ({ title, format, tags, size, children }: Props) => (
+const MainImageWrapper = ({ title, format, tags, size, children }) => (
   <ImageContainer>
     <ImageHolder>
       <ImageOverlay>

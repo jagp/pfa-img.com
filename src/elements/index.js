@@ -14,7 +14,7 @@ import {
   textAlign
 } from "styled-system"
 
-export const Box = styled<any>("div")`
+export const Box = styled.div`
   box-sizing: border-box;
   ${space}
   ${width}
@@ -26,7 +26,7 @@ export const Box = styled<any>("div")`
 
 Box.displayName = "Box"
 
-export const AnimatedBox = styled<any>(animated.div)`
+export const AnimatedBox = styled(animated.div)`
   box-sizing: border-box;
   ${space}
   ${width}
@@ -38,7 +38,7 @@ export const AnimatedBox = styled<any>(animated.div)`
 
 AnimatedBox.displayName = "AnimatedBox"
 
-export const Flex = styled<any>("div")`
+export const Flex = styled.div`
   display: flex;
   ${space}
   ${flexWrap}
@@ -49,7 +49,7 @@ export const Flex = styled<any>("div")`
 
 Flex.displayName = "Flex"
 
-export const AnimatedFlex = styled<any>(animated.div)`
+export const AnimatedFlex = styled(animated.div)`
   display: flex;
   ${space}
   ${flexWrap}
@@ -60,7 +60,7 @@ export const AnimatedFlex = styled<any>(animated.div)`
 
 AnimatedFlex.displayName = "AnimatedFlex"
 
-export const Button = styled<any>("button")`
+export const Button = styled.button`
   border-radius: 1000rem;
   border: none;
   font-weight: 700;

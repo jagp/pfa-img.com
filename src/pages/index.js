@@ -12,42 +12,6 @@ import * as sanitizeFilename from "sanitize-filename"
 
 import "../styles/ugly-quick-fix.css"
 
-/*
-type PageProps = {
-  data: {
-    /*
-    firstProject: {
-      title: string
-      slug: string
-      cover: ChildImageSharp
-    }
-    threeProjects: {
-      edges: {
-        node: {
-          title: string
-          slug: string
-          cover: ChildImageSharp
-        }
-      }[]
-    }
-    aboutUs: ChildImageSharp
-
-    publicImages: {
-      allImageSharp: {
-        edges: {
-          node: {}
-        }
-      }
-      edges: {
-        node: {
-          image: ChildImageSharp
-        }
-      }[]
-    }
-  }
-}
-*/
-
 const Area = styled(animated.div)`
   display: flex;
   flex-wrap: wrap;
@@ -69,7 +33,7 @@ const PublicImages = styled(GridItem)`
   grid-template-columns: repeat(3, 1fr);
 `
 
-const Index: React.FunctionComponent<PageProps> = ({ data }) => {
+const Index = ({ data }) => {
   const pageAnimation = useSpring({
     config: config.slow,
     from: { opacity: 0 },
@@ -83,8 +47,9 @@ const Index: React.FunctionComponent<PageProps> = ({ data }) => {
     <Layout>
       <SEO />
       <Area style={pageAnimation}>
-        {data.allFile.edges.map(({ node }) => (
-          <GridItem to="#">
+        {console.log(data)}
+        {data.JaredsLocalImages.edges.map(({ node }) => (
+          <GridItem key={node.id} to="#">
             <MainImageWrapper
               title={formatName(node.childImageSharp.sizes.originalName)}
               format={node.extension}
@@ -103,40 +68,46 @@ const Index: React.FunctionComponent<PageProps> = ({ data }) => {
 export default Index
 
 export const query = graphql`
-  query JaredsLocalImages {
-    allFile(filter: { sourceInstanceName: { eq: "imageRepo" } }) {
+  query {
+    JaredsLocalImages: allFile(
+      filter: { sourceInstanceName: { eq: "imageRepo" } }
+    ) {
       totalCount
       edges {
         node {
+          id
           extension
           prettySize
           childImageSharp {
-            resize {
-              tracedSVG
-            }
-            original {
-              width
-              height
-            }
-            sizes(maxWidth: 200, maxHeight: 200) {
-              originalName
-              ...GatsbyImageSharpSizes
-            }
-            fixed {
-              base64
-              tracedSVG
-              aspectRatio
-              width
-              height
-              src
-              srcSet
-              srcWebp
-              srcSetWebp
-              originalName
-            }
+            ...indexPageImageFields
           }
         }
       }
+    }
+  }
+  fragment indexPageImageFields on ImageSharp {
+    resize {
+      tracedSVG
+    }
+    original {
+      width
+      height
+    }
+    sizes(maxWidth: 200, maxHeight: 200) {
+      originalName
+      ...GatsbyImageSharpSizes
+    }
+    fixed {
+      base64
+      tracedSVG
+      aspectRatio
+      width
+      height
+      src
+      srcSet
+      srcWebp
+      srcSetWebp
+      originalName
     }
   }
 `

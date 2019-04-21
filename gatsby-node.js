@@ -10,8 +10,8 @@ const wrapper = promise =>
 exports.createPages = async ({ graphql, actions }) => {
   const { createPage } = actions
 
-  const projectTemplate = require.resolve('./src/templates/project.tsx')
-
+  //const projectTemplate = require.resolve("./src/templates/project.tsx")
+  /*
   const result = await wrapper(
     graphql(`
       {
@@ -33,8 +33,9 @@ exports.createPages = async ({ graphql, actions }) => {
       component: projectTemplate,
       context: {
         slug: edge.node.slug,
-        images: `/${edge.node.images}/`,
+        images: `/${edge.node.images}/`
       }
     })
   })
+  */
 }

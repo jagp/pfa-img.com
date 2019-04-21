@@ -1,7 +1,6 @@
 import React from "react"
 import styled, { createGlobalStyle, ThemeProvider } from "styled-components"
 import { graphql, Link, useStaticQuery } from "gatsby"
-import { readableColor } from "polished"
 import "typeface-work-sans"
 import { Box, Flex } from "../elements"
 import theme from "../../config/theme"
@@ -92,23 +91,19 @@ const GlobalStyles = createGlobalStyle`
   ${reset}
 `
 
-const isPartiallyActive = ({
-  isPartiallyCurrent
-}: {
-  isPartiallyCurrent: boolean
-}) => {
+const isPartiallyActive = ({ isPartiallyCurrent }) => {
   return isPartiallyCurrent
     ? { className: "navlink-active navlink" }
     : { className: "navlink" }
 }
 
-const PartialNavLink = (props: any) => (
+const PartialNavLink = props => (
   <Link getProps={isPartiallyActive} {...props}>
     {props.children}
   </Link>
 )
 
-const SiteNav = styled(Flex)<{ color: string }>`
+const SiteNav = styled(Flex)`
   position: fixed;
   width: 100%;
   background-color: ${props => props.theme.colors.primary};
@@ -162,7 +157,7 @@ const SiteNavLinks = styled.div`
   }
 `
 
-const LogoWrapper = styled<any>("div")`
+const LogoWrapper = styled.div`
   margin-right: auto;
   max-height: ${props => props.theme.siteNavbarHeight.normal};
   width: ${props => props.theme.sidebarWidth.normal};
@@ -188,13 +183,13 @@ const Sidebar = styled(Flex)`
   color: ${props => props.theme.colors.secondary};
 `
 
-const Toolbar = styled(Flex)<{ color: string }>`
+const Toolbar = styled(Flex)`
   flex-direction: column;
   font-size: ${props => props.theme.fontSizes[0]};
   line-height: 1.5;
   a {
     text-decoration: none;
-    color: ${props => readableColor(`${props.color}`)};
+    color: white;
     &:hover,
     &:focus {
       color: ${props => props.theme.colors.accent};
@@ -217,7 +212,7 @@ const Toolbar = styled(Flex)<{ color: string }>`
   }
 `
 
-const ToolbarInner = styled(Box)<{ bg: string }>`
+const ToolbarInner = styled(Box)`
   height: 100%;
   width: ${props => props.theme.sidebarWidth.big};
   display: flex;
@@ -239,15 +234,14 @@ const Main = styled.main`
   padding: ${theme.space[4]};
 `
 
-const Footer = styled.footer<{ color: string }>`
+const Footer = styled.footer`
   width: 100%;
   bottom: 0;
   position: absolute;
-  color: ${props =>
-    readableColor(`${props.color}`, `${props.theme.colors.cream}`, "#f2e4d6")};
+  color: ${props => props.theme.colors.cream};
 
   a {
-    color: ${props => readableColor(`${props.color}`)};
+    color: white;
     text-decoration: none;
     &:hover {
       color: ${props => props.theme.colors.primary};
@@ -263,30 +257,12 @@ const Footer = styled.footer<{ color: string }>`
     width: 100%;
   }
 `
-
-type LayoutProps = { children: React.ReactNode } & typeof defaultProps
-
-const defaultProps = {
-  color: "white"
-}
-
-interface QueryResult {
-  navigation: {
-    edges: {
-      node: {
-        name: string
-        link: string
-      }
-    }[]
-  }
-}
-
-const Layout = ({ children, color }: LayoutProps) => {
-  const data: QueryResult = useStaticQuery(query)
+const Layout = ({ children, color }) => {
+  const data = useStaticQuery(query)
 
   return (
     <ThemeProvider theme={theme}>
-      <>
+      <div>
         <GlobalStyles />
         <SiteNav as="nav" flexWrap="nowrap" flexDirection="row">
           <LogoWrapper>
@@ -315,7 +291,11 @@ const Layout = ({ children, color }: LayoutProps) => {
                   alignItems="flex-start"
                 >
                   {data.tags.edges.map(({ node: item }) => (
-                    <ToolbarCheckbox space={[1]} title={item.title}>
+                    <ToolbarCheckbox
+                      key={item.title}
+                      space={[1]}
+                      title={item.title}
+                    >
                       {item.title}
                     </ToolbarCheckbox>
                   ))}
@@ -330,14 +310,12 @@ const Layout = ({ children, color }: LayoutProps) => {
           </Sidebar>
           <Main>{children}</Main>
         </Wrapper>
-      </>
+      </div>
     </ThemeProvider>
   )
 }
 
 export default Layout
-
-Layout.defaultProps = defaultProps
 
 const query = graphql`
   query LayoutQuery {

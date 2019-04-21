@@ -1,14 +1,7 @@
-import React from 'react'
-import Helmet from 'react-helmet'
+import React from "react"
+import Helmet from "react-helmet"
 
-type Props = { url: string; title: string; desc: string; image: string; locale: string } & typeof defaultProps
-
-const defaultProps = {
-  name: '',
-  type: 'website',
-}
-
-const Facebook = ({ url, title, desc, image, locale, name, type }: Props) => (
+const Facebook = ({ url, title, desc, image, locale, name, type }) => (
   <Helmet>
     {name && <meta property="og:site_name" content={name} />}
     <meta property="og:locale" content={locale} />
@@ -20,7 +13,5 @@ const Facebook = ({ url, title, desc, image, locale, name, type }: Props) => (
     <meta property="og:image:alt" content={desc} />
   </Helmet>
 )
-
-Facebook.defaultProps = defaultProps
 
 export default Facebook
