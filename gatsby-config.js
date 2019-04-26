@@ -29,7 +29,7 @@ module.exports = {
       resolve: "gatsby-source-filesystem",
       options: {
         name: "imageMetadata",
-        path: `${__dirname}/content/metadata`
+        path: `${__dirname}/src/content/metadata`
       }
     },
     {
@@ -43,14 +43,7 @@ module.exports = {
       resolve: "gatsby-source-filesystem",
       options: {
         name: "imageRepo",
-        path: `${__dirname}/content/public/img`
-      }
-    },
-    {
-      resolve: "gatsby-source-filesystem",
-      options: {
-        name: "memeRepo",
-        path: `${__dirname}/content/public/memes`
+        path: `${__dirname}/src/content/img/jagp`
       }
     },
     {

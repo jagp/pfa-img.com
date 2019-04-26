@@ -47,15 +47,15 @@ const Index = ({ data }) => {
     <Layout>
       <SEO />
       <Area style={pageAnimation}>
-        {console.log(data)}
         {data.JaredsLocalImages.edges.map(({ node }) => (
           <GridItem key={node.id} to="#">
             <MainImageWrapper
-              title={formatName(node.childImageSharp.sizes.originalName)}
+              title={node.name}
               format={node.extension}
               tags={["tag1", "tag2"]}
               size={node.prettySize}
             >
+              {console.log(node.childImageSharp.fixed)}
               <Img fixed={node.childImageSharp.fixed} />
             </MainImageWrapper>
           </GridItem>
@@ -79,35 +79,21 @@ export const query = graphql`
           extension
           prettySize
           childImageSharp {
-            ...indexPageImageFields
+            fixed {
+              base64
+              tracedSVG
+              aspectRatio
+              width
+              height
+              src
+              srcSet
+              srcWebp
+              srcSetWebp
+              originalName
+            }
           }
         }
       }
-    }
-  }
-  fragment indexPageImageFields on ImageSharp {
-    resize {
-      tracedSVG
-    }
-    original {
-      width
-      height
-    }
-    sizes(maxWidth: 200, maxHeight: 200) {
-      originalName
-      ...GatsbyImageSharpSizes
-    }
-    fixed {
-      base64
-      tracedSVG
-      aspectRatio
-      width
-      height
-      src
-      srcSet
-      srcWebp
-      srcSetWebp
-      originalName
     }
   }
 `
