@@ -47,7 +47,7 @@ const Index = ({ data }) => {
     <Layout>
       <SEO />
       <Area style={pageAnimation}>
-        {data.JaredsLocalImages.edges.map(({ node }) => (
+        {data.memes.edges.map(({ node }) => (
           <GridItem key={node.id} to="#">
             <MainImageWrapper
               title={node.name}
@@ -55,13 +55,9 @@ const Index = ({ data }) => {
               tags={["tag1", "tag2"]}
               size={node.prettySize}
             >
-              {
-                /*Gatsby bug: the object is reporting it does contain a "childImageSharp" property, but when referenced
-              it causes a fatal error. The issue was I fed in an animated .gif by accident, so the
-              childImageSharp was malformed. This should have been caught at build time.
-              <p>{node.name} : {node.hasOwnProperty( "childImageSharp" ) ? "TRUE" : "FALSE"}</p>
-              {console.log(node.name)}
-              {/*{node.hasOwnProperty( "childImageSharp" ) ? (<Img fixed={node.childImageSharp.fixed} />) : (console.log(node.name)) }}
+              {/* Upgly but I'm leaving this in for now:
+                <p>{node.name} : {node.hasOwnProperty( "childImageSharp" ) ? "TRUE" : "FALSE"}</p>
+                {node.hasOwnProperty( "childImageSharp" ) ? (<Img fixed={node.childImageSharp.fixed} />) : (console.log(node.name)) }}
               */}
               <Img fixed={node.childImageSharp.fixed} />
 
@@ -77,13 +73,42 @@ export default Index
 
 export const query = graphql`
 query {
-  JaredsLocalImages: allFile(
-    filter: { sourceInstanceName: { eq: "imageRepo" } }
-  ) {
+  memes: allFile(
+    filter: {
+      sourceInstanceName: { eq: "imageRepo" }
+      relativeDirectory: { eq: "memes" }
+    }
+    ) {
     totalCount
     edges {
       node {
-        #filename pieces
+        ...imageFields
+      }
+    }
+  }
+  postedMemes: allFile(
+    filter: {
+      sourceInstanceName: { eq: "imageRepo" }
+      relativeDirectory: { eq: "posted-memes" }
+    }
+    ) {
+    totalCount
+    edges {
+      node {
+        ...imageFields
+      }
+    }
+  }
+  jaredsImages: allFile(
+    filter: {
+      sourceInstanceName: { eq: "imageRepo" }
+      relativeDirectory: { eq: "jagp" }
+    }
+    ) {
+    totalCount
+    edges {
+      node {
+        ...imageFields
       }
     }
   }
