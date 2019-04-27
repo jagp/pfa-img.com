@@ -34,10 +34,13 @@ const PublicImages = styled(GridItem)`
 `
 
 class Index extends React.Component {
+  state = { activeFilters: [] }
+  /* 
   constructor(props) {
     super(props)
     this.state = { activeFilters: [] }
   }
+  */
 
   formatName = uglyName =>
     sanitizeFilename(uglyName, { replacement: "" }).replace(/[-_]/g, " ")
