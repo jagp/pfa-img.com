@@ -47,23 +47,32 @@ const Index = ({ data }) => {
     <Layout>
       <SEO />
       <Area style={pageAnimation}>
-        {data.memes.edges.map(({ node }) => (
-          <GridItem key={node.id} to="#">
-            <MainImageWrapper
-              title={formatName(node.name)}
-              format={node.extension}
-              tags={["tag1", "tag2"]}
-              size={node.prettySize}
-            >
-              {/* Upgly but I'm leaving this in for now:
+        {data.memes.edges.map(({ node }) => {
+          // Determine the girdItem's visibility via settings on search, categories, tags
+
+          // All images default to visible
+          node.filtersPassed = true
+
+          // Placeholder filter flag
+          if (node.extension === "jpg") node.filtersPassed = false
+
+          return (
+            <GridItem key={node.id} to="#" filtersPassed={node.filtersPassed}>
+              <MainImageWrapper
+                title={formatName(node.name)}
+                format={node.extension}
+                tags={["tag1", "tag2"]}
+                size={node.prettySize}
+              >
+                {/* Upgly but I'm leaving this in for now:
                 <p>{node.name} : {node.hasOwnProperty( "childImageSharp" ) ? "TRUE" : "FALSE"}</p>
                 {node.hasOwnProperty( "childImageSharp" ) ? (<Img fixed={node.childImageSharp.fixed} />) : (console.log(node.name)) }}
               */}
-              <Img fixed={node.childImageSharp.fixed} />
-
-            </MainImageWrapper>
-          </GridItem>
-        ))}
+                <Img fixed={node.childImageSharp.fixed} />
+              </MainImageWrapper>
+            </GridItem>
+          )
+        })}
       </Area>
     </Layout>
   )
@@ -72,45 +81,45 @@ const Index = ({ data }) => {
 export default Index
 
 export const query = graphql`
-query {
-  memes: allFile(
-    filter: {
-      sourceInstanceName: { eq: "imageRepo" }
-      relativeDirectory: { eq: "memes" }
-    }
+  query {
+    memes: allFile(
+      filter: {
+        sourceInstanceName: { eq: "imageRepo" }
+        relativeDirectory: { eq: "memes" }
+      }
     ) {
-    totalCount
-    edges {
-      node {
-        ...imageFields
+      totalCount
+      edges {
+        node {
+          ...imageFields
+        }
+      }
+    }
+    postedMemes: allFile(
+      filter: {
+        sourceInstanceName: { eq: "imageRepo" }
+        relativeDirectory: { eq: "posted-memes" }
+      }
+    ) {
+      totalCount
+      edges {
+        node {
+          ...imageFields
+        }
+      }
+    }
+    jaredsImages: allFile(
+      filter: {
+        sourceInstanceName: { eq: "imageRepo" }
+        relativeDirectory: { eq: "jagp" }
+      }
+    ) {
+      totalCount
+      edges {
+        node {
+          ...imageFields
+        }
       }
     }
   }
-  postedMemes: allFile(
-    filter: {
-      sourceInstanceName: { eq: "imageRepo" }
-      relativeDirectory: { eq: "posted-memes" }
-    }
-    ) {
-    totalCount
-    edges {
-      node {
-        ...imageFields
-      }
-    }
-  }
-  jaredsImages: allFile(
-    filter: {
-      sourceInstanceName: { eq: "imageRepo" }
-      relativeDirectory: { eq: "jagp" }
-    }
-    ) {
-    totalCount
-    edges {
-      node {
-        ...imageFields
-      }
-    }
-  }
-}
 `

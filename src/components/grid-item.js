@@ -6,7 +6,7 @@ const GridItem = styled(Link)`
   height: 212px;
   width: 212px;
   display: flex;
-
+  display: ${props => (props.filtersPassed ? "block" : "none")};
   border: 1px solid ${theme.colors.primary};
   margin: ${theme.space[2]} ${theme.space[2]} ${theme.space[8]}
     ${theme.space[2]};
