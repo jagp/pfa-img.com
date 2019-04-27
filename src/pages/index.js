@@ -68,32 +68,50 @@ const Index = ({ data }) => {
 export default Index
 
 export const query = graphql`
-  query {
-    JaredsLocalImages: allFile(
-      filter: { sourceInstanceName: { eq: "imageRepo" } }
-    ) {
-      totalCount
-      edges {
-        node {
-          id
-          extension
-          prettySize
-          childImageSharp {
-            fixed {
-              base64
-              tracedSVG
-              aspectRatio
-              width
-              height
-              src
-              srcSet
-              srcWebp
-              srcSetWebp
-              originalName
-            }
+query {
+  JaredsLocalImages: allFile(
+    filter: { sourceInstanceName: { eq: "imageRepo" } }
+  ) {
+    totalCount
+    edges {
+      node {
+        #filename pieces
+        name
+        ext
+        base
+
+        #directory structure pieces
+        root
+        dir
+        absolutePath
+        relativePath
+
+        #gatsby config source
+        sourceInstanceName
+        relativeDirectory
+
+        #file attributes
+        extension
+        size
+        prettySize
+
+        #ImageSharp
+        childImageSharp {
+          fixed {
+            base64
+            tracedSVG
+            aspectRatio
+            width
+            height
+            src
+            srcSet
+            srcWebp
+            srcSetWebp
+            originalName
           }
         }
       }
     }
   }
+}
 `
