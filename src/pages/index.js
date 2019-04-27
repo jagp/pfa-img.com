@@ -35,7 +35,7 @@ const PublicImages = styled(GridItem)`
 
 class Index extends React.Component {
   // Placeholder initial filters, these will be null to begin
-  state = { filters: { extension: "jpg" } }
+  state = { filters: { extension: ["jpg", "png"] } }
 
   formatName = uglyName =>
     sanitizeFilename(uglyName, { replacement: "" }).replace(/[-_]/g, " ")
@@ -49,26 +49,20 @@ class Index extends React.Component {
         <SEO />
         <Area>
           {data.memes.edges.map(({ node }) => {
-            // Determine the girdItem's visibility via settings on search, categories, tags
-
-            // All images default to visible
-
-            // Placeholder filter flag
-            if (node.extension === filters.extension) {
-              this.currentFilters = false
-            } else {
-              this.currentFilters = true
-            }
-
             return (
-              <GridItem key={node.id} to="#" visible={this.currentFilters}>
+              <GridItem
+                key={node.id}
+                to="#"
+                /* Searches for the current node's extension in the list of filtered extensions */
+                visible={!filters.extension.find(ext => ext === node.extension)}
+              >
                 <MainImageWrapper
                   title={this.formatName(node.name)}
                   format={node.extension}
                   tags={["tag1", "tag2"]}
                   size={node.prettySize}
                 >
-                  {/* Upgly but I'm leaving this in for now:
+                  {/* Ugly but I'm leaving this in for now:
                 <p>{node.name} : {node.hasOwnProperty( "childImageSharp" ) ? "TRUE" : "FALSE"}</p>
                 {node.hasOwnProperty( "childImageSharp" ) ? (<Img fixed={node.childImageSharp.fixed} />) : (console.log(node.name)) }}
               */}
