@@ -33,49 +33,52 @@ const PublicImages = styled(GridItem)`
   grid-template-columns: repeat(3, 1fr);
 `
 
-const Index = ({ data }) => {
-  const pageAnimation = useSpring({
-    config: config.slow,
-    from: { opacity: 0 },
-    to: { opacity: 1 }
-  })
+class Index extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = { activeFilters: [] }
+  }
 
-  const formatName = uglyName =>
+  formatName = uglyName =>
     sanitizeFilename(uglyName, { replacement: "" }).replace(/[-_]/g, " ")
 
-  return (
-    <Layout>
-      <SEO />
-      <Area style={pageAnimation}>
-        {data.memes.edges.map(({ node }) => {
-          // Determine the girdItem's visibility via settings on search, categories, tags
+  render() {
+    const { data } = this.props
 
-          // All images default to visible
-          node.filtersPassed = true
+    return (
+      <Layout>
+        <SEO />
+        <Area>
+          {data.memes.edges.map(({ node }) => {
+            // Determine the girdItem's visibility via settings on search, categories, tags
 
-          // Placeholder filter flag
-          if (node.extension === "jpg") node.filtersPassed = false
+            // All images default to visible
+            node.filtersPassed = true
 
-          return (
-            <GridItem key={node.id} to="#" filtersPassed={node.filtersPassed}>
-              <MainImageWrapper
-                title={formatName(node.name)}
-                format={node.extension}
-                tags={["tag1", "tag2"]}
-                size={node.prettySize}
-              >
-                {/* Upgly but I'm leaving this in for now:
+            // Placeholder filter flag
+            if (node.extension === "jpg") node.filtersPassed = false
+
+            return (
+              <GridItem key={node.id} to="#" filtersPassed={node.filtersPassed}>
+                <MainImageWrapper
+                  title={this.formatName(node.name)}
+                  format={node.extension}
+                  tags={["tag1", "tag2"]}
+                  size={node.prettySize}
+                >
+                  {/* Upgly but I'm leaving this in for now:
                 <p>{node.name} : {node.hasOwnProperty( "childImageSharp" ) ? "TRUE" : "FALSE"}</p>
                 {node.hasOwnProperty( "childImageSharp" ) ? (<Img fixed={node.childImageSharp.fixed} />) : (console.log(node.name)) }}
               */}
-                <Img fixed={node.childImageSharp.fixed} />
-              </MainImageWrapper>
-            </GridItem>
-          )
-        })}
-      </Area>
-    </Layout>
-  )
+                  <Img fixed={node.childImageSharp.fixed} />
+                </MainImageWrapper>
+              </GridItem>
+            )
+          })}
+        </Area>
+      </Layout>
+    )
+  }
 }
 
 export default Index
