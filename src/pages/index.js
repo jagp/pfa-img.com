@@ -34,19 +34,15 @@ const PublicImages = styled(GridItem)`
 `
 
 class Index extends React.Component {
-  state = { activeFilters: [] }
-  /* 
-  constructor(props) {
-    super(props)
-    this.state = { activeFilters: [] }
-  }
-  */
+  // Placeholder initial filters, these will be null to begin
+  state = { filters: { extension: "jpg" } }
 
   formatName = uglyName =>
     sanitizeFilename(uglyName, { replacement: "" }).replace(/[-_]/g, " ")
 
   render() {
     const { data } = this.props
+    const { filters } = this.state
 
     return (
       <Layout>
@@ -56,13 +52,16 @@ class Index extends React.Component {
             // Determine the girdItem's visibility via settings on search, categories, tags
 
             // All images default to visible
-            node.filtersPassed = true
 
             // Placeholder filter flag
-            if (node.extension === "jpg") node.filtersPassed = false
+            if (node.extension === filters.extension) {
+              this.currentFilters = false
+            } else {
+              this.currentFilters = true
+            }
 
             return (
-              <GridItem key={node.id} to="#" filtersPassed={node.filtersPassed}>
+              <GridItem key={node.id} to="#" visible={this.currentFilters}>
                 <MainImageWrapper
                   title={this.formatName(node.name)}
                   format={node.extension}
