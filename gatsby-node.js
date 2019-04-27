@@ -10,7 +10,7 @@ const wrapper = promise =>
 exports.createPages = async ({ graphql, actions }) => {
   const { createPage } = actions
 
-  const projectTemplate = require.resolve("./src/templates/project.tsx")
+  const singleImageTemplate = require.resolve("./src/templates/single-image.js")
   /*
   const result = await wrapper(
     graphql(`
