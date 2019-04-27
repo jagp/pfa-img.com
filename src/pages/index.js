@@ -55,8 +55,16 @@ const Index = ({ data }) => {
               tags={["tag1", "tag2"]}
               size={node.prettySize}
             >
-              {console.log(node.childImageSharp.fixed)}
+              {
+                /*Gatsby bug: the object is reporting it does contain a "childImageSharp" property, but when referenced
+              it causes a fatal error. The issue was I fed in an animated .gif by accident, so the
+              childImageSharp was malformed. This should have been caught at build time.
+              <p>{node.name} : {node.hasOwnProperty( "childImageSharp" ) ? "TRUE" : "FALSE"}</p>
+              {console.log(node.name)}
+              {/*{node.hasOwnProperty( "childImageSharp" ) ? (<Img fixed={node.childImageSharp.fixed} />) : (console.log(node.name)) }}
+              */}
               <Img fixed={node.childImageSharp.fixed} />
+
             </MainImageWrapper>
           </GridItem>
         ))}
