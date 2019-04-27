@@ -43,7 +43,7 @@ module.exports = {
       resolve: "gatsby-source-filesystem",
       options: {
         name: "imageRepo",
-        path: `${__dirname}/src/content/img/jagp`
+        path: `${__dirname}/src/content/img`
       }
     },
     {
