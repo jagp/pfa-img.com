@@ -41,7 +41,7 @@ const Index = ({ data }) => {
   })
 
   const formatName = uglyName =>
-    sanitizeFilename(uglyName, { replacement: "" }).replace(/-/g, " ")
+    sanitizeFilename(uglyName, { replacement: "" }).replace(/[-_]/g, " ")
 
   return (
     <Layout>
@@ -50,7 +50,7 @@ const Index = ({ data }) => {
         {data.memes.edges.map(({ node }) => (
           <GridItem key={node.id} to="#">
             <MainImageWrapper
-              title={node.name}
+              title={formatName(node.name)}
               format={node.extension}
               tags={["tag1", "tag2"]}
               size={node.prettySize}
