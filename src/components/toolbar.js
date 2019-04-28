@@ -67,7 +67,7 @@ const Toolbar = ({ color, filters, toggleToolbarItem }) => {
             key={item.title}
             space={[1]}
             title={item.title}
-            checked={filters.extension.find(ext => ext === item.title)}
+            checked={filters.extension[item.title]}
             toggleToolbarItem={toggleToolbarItem}
           >
             {item.title}

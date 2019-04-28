@@ -66,20 +66,24 @@ const Grid = styled.div`
 class Index extends React.Component {
   constructor(props) {
     super(props)
-    this.addExtensionFilter = this.addExtensionFilter.bind(this)
+    this.toggleToolbarItem = this.toggleToolbarItem.bind(this)
     // Placeholder initial filters, these will be null to begin
     this.state = {
       //filters: { extension: ["png"], tags: [""], size: [""] }
-      filters: { extension: ["png", "jpg"] }
+      filters: { extension: { png: true, jpg: true } }
     }
   }
 
-  addExtensionFilter(e) {
-    console.log(e)
-    this.setState(state => ({
+  toggleToolbarItem(e, data) {
+    console.log(e, data)
+    this.setState(state => {
       //filters: { ...state.filters, extension: e.extension }
-      filters: { extension: ["png"] }
-    }))
+      const newExtensions = state.filters.extension
+      //data currently is just the name/title of the extensions, this needs refactor
+      newExtensions[data] = !newExtensions[data]
+
+      return { filters: { extension: newExtensions } }
+    })
   }
 
   formatName = uglyName =>
@@ -98,7 +102,7 @@ class Index extends React.Component {
             as="aside"
             p={[1, 1, 4]}
             filters={this.state.filters}
-            toggleToolbarItem={this.addExtensionFilter}
+            toggleToolbarItem={this.toggleToolbarItem}
           />
           <Footer color={color}>
             <Box p={[1, 1, 3]} fontSize={0}>
@@ -113,7 +117,7 @@ class Index extends React.Component {
                 key={node.id}
                 to="#"
                 /* Searches for the current node's extension in the list of filtered extensions */
-                visible={!filters.extension.find(ext => ext === node.extension)}
+                visible={filters.extension[node.extension]}
               >
                 <MainImageWrapper
                   title={this.formatName(node.name)}
