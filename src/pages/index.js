@@ -2,54 +2,92 @@ import React from "react"
 import { graphql } from "gatsby"
 import Img from "gatsby-image"
 import styled from "styled-components"
-import { animated, useSpring, config } from "react-spring"
+
+import SEO from "../components/SEO"
 import Layout from "../components/layout"
 import GridItem from "../components/grid-item"
 import MainImageWrapper from "../components/main-image-wrapper"
-import SEO from "../components/SEO"
-import * as sanitizeFilename from "sanitize-filename"
-//import { ChildImageSharp } from "../types"
+import Toolbar from "../components/toolbar"
+import { Box, Flex } from "../elements"
+import theme from "../../config/theme"
+
+import sanitizeFilename from "sanitize-filename"
 
 import "../styles/ugly-quick-fix.css"
 
-const Area = styled(animated.div)`
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-evenly;
+const Sidebar = styled(Flex)`
+  position: fixed;
+  width: ${props => props.theme.sidebarWidth.normal};
+  flex-direction: column;
+  padding: 10px;
+  border-right: 4px solid ${props => props.theme.colors.quaternary};
+  background-color: ${props => props.theme.colors.yellow};
+  height: calc(100vh - ${props => props.theme.siteNavbarHeight.normal});
+  color: ${props => props.theme.colors.secondary};
+`
+const Footer = styled.footer`
+  width: 100%;
+  bottom: 0;
+  position: absolute;
+  color: ${props => props.theme.colors.cream};
 
-  @media (max-width: ${props => props.theme.breakpoints[3]}) {
+  a {
+    color: white;
+    text-decoration: none;
+    &:hover {
+      color: ${props => props.theme.colors.primary};
+    }
   }
 
-  @media (max-width: ${props => props.theme.breakpoints[1]}) {
+  @media (max-width: ${props => props.theme.breakpoints[4]}) {
+    width: ${props => props.theme.sidebarWidth.normal};
   }
 
-  @media (max-width: ${props => props.theme.breakpoints[0]}) {
+  @media (max-width: ${props => props.theme.breakpoints[2]}) {
+    position: absolute;
+    width: 100%;
   }
 `
 
-const PublicImages = styled(GridItem)`
-  grid-area: public-images;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
+const GridWrapper = styled.div`
+  position: relative;
+  width: calc(100% - ${props => props.theme.sidebarWidth.normal});
+  left: ${props => props.theme.sidebarWidth.normal};
+  padding: ${theme.space[4]};
+`
+
+const Grid = styled.div`
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
 `
 
 class Index extends React.Component {
   // Placeholder initial filters, these will be null to begin
-  state = { filters: { extension: ["jpg", "png"] } }
+  state = { filters: { extension: ["png"] } }
 
   formatName = uglyName =>
     sanitizeFilename(uglyName, { replacement: "" }).replace(/[-_]/g, " ")
 
   render() {
-    const { data } = this.props
+    const { data, color } = this.props
     const { filters } = this.state
 
     return (
       <Layout>
         <SEO />
-        <Area>
-          {data.memes.edges.map(({ node }) => {
-            return (
+        <Sidebar>
+          <Toolbar color={color} as="aside" p={[1, 1, 4]} />
+          <Footer color={color}>
+            <Box p={[1, 1, 3]} fontSize={0}>
+              Donate to Pete For America Here.
+            </Box>
+          </Footer>
+        </Sidebar>
+        <GridWrapper>
+          <Grid>
+            {data.memes.edges.map(({ node }) => (
               <GridItem
                 key={node.id}
                 to="#"
@@ -62,16 +100,12 @@ class Index extends React.Component {
                   tags={["tag1", "tag2"]}
                   size={node.prettySize}
                 >
-                  {/* Ugly but I'm leaving this in for now:
-                <p>{node.name} : {node.hasOwnProperty( "childImageSharp" ) ? "TRUE" : "FALSE"}</p>
-                {node.hasOwnProperty( "childImageSharp" ) ? (<Img fixed={node.childImageSharp.fixed} />) : (console.log(node.name)) }}
-              */}
                   <Img fixed={node.childImageSharp.fixed} />
                 </MainImageWrapper>
               </GridItem>
-            )
-          })}
-        </Area>
+            ))}
+          </Grid>
+        </GridWrapper>
       </Layout>
     )
   }

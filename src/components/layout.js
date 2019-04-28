@@ -2,11 +2,10 @@ import React from "react"
 import styled, { createGlobalStyle, ThemeProvider } from "styled-components"
 import { graphql, Link, useStaticQuery } from "gatsby"
 import "typeface-work-sans"
-import { Box, Flex } from "../elements"
 import theme from "../../config/theme"
 import reset from "../styles/reset"
 import Logo from "./logo"
-import ToolbarCheckbox from "./toolbar-checkbox"
+import { Flex } from "../elements"
 
 const GlobalStyles = createGlobalStyle`
   *::before,
@@ -103,8 +102,23 @@ const PartialNavLink = props => (
   </Link>
 )
 
-const SiteNav = styled(Flex)`
+const SiteWrapper = styled.div`
+  position: relative;
+  height: 100vh;
+  width: 100vw;
+`
+
+const Main = styled.main`
   position: fixed;
+  width: 100%;
+  top: ${props => props.theme.siteNavbarHeight.normal};
+  height: calc(100vh - ${props => props.theme.siteNavbarHeight.normal});
+  overflow-y: scroll;
+`
+
+const SiteNav = styled.nav`
+  position: fixed;
+  display: flex;
   width: 100%;
   background-color: ${props => props.theme.colors.primary};
   height: ${props => props.theme.siteNavbarHeight.normal};
@@ -165,106 +179,14 @@ const LogoWrapper = styled.div`
   justify-content: center;
 `
 
-const Wrapper = styled.div`
-  display: grid;
-  grid-template-columns: ${props => props.theme.sidebarWidth.normal} 1fr;
-  padding-top: ${props => props.theme.siteNavbarHeight.normal};
-`
-//height: calc(100vh - ${props => props.theme.siteNavbarHeight.normal});
-
-const Sidebar = styled(Flex)`
-  grid-column: 1;
-  flex-direction: column;
-  position: fixed;
-  border-right: 4px solid ${props => props.theme.colors.quaternary};
-  background-color: ${props => props.theme.colors.yellow};
-  height: calc(100vh - ${props => props.theme.siteNavbarHeight.normal});
-  width: ${props => props.theme.sidebarWidth.normal};
-  color: ${props => props.theme.colors.secondary};
-`
-
-const Toolbar = styled(Flex)`
-  flex-direction: column;
-  font-size: ${props => props.theme.fontSizes[0]};
-  line-height: 1.5;
-  a {
-    text-decoration: none;
-    color: white;
-    &:hover,
-    &:focus {
-      color: ${props => props.theme.colors.accent};
-    }
-
-    @media (max-width: ${props => props.theme.breakpoints[2]}) {
-      font-size: ${props => props.theme.fontSizes[2]};
-      margin-left: ${props => props.theme.space[4]};
-    }
-
-    @media (max-width: ${props => props.theme.breakpoints[1]}) {
-      font-size: ${props => props.theme.fontSizes[1]};
-      margin-left: ${props => props.theme.space[3]};
-    }
-
-    @media (max-width: ${props => props.theme.breakpoints[0]}) {
-      font-size: ${props => props.theme.fontSizes[0]};
-      margin-left: ${props => props.theme.space[2]};
-    }
-  }
-`
-
-const ToolbarInner = styled(Box)`
-  height: 100%;
-  width: ${props => props.theme.sidebarWidth.big};
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-
-  @media (max-width: ${props => props.theme.breakpoints[4]}) {
-    width: ${props => props.theme.sidebarWidth.normal};
-  }
-
-  @media (max-width: ${props => props.theme.breakpoints[2]}) {
-    position: relative;
-    width: 100%;
-  }
-`
-
-const Main = styled.main`
-  grid-column: 2;
-  padding: ${theme.space[4]};
-`
-
-const Footer = styled.footer`
-  width: 100%;
-  bottom: 0;
-  position: absolute;
-  color: ${props => props.theme.colors.cream};
-
-  a {
-    color: white;
-    text-decoration: none;
-    &:hover {
-      color: ${props => props.theme.colors.primary};
-    }
-  }
-
-  @media (max-width: ${props => props.theme.breakpoints[4]}) {
-    width: ${props => props.theme.sidebarWidth.normal};
-  }
-
-  @media (max-width: ${props => props.theme.breakpoints[2]}) {
-    position: relative;
-    width: 100%;
-  }
-`
 const Layout = ({ children, color }) => {
   const data = useStaticQuery(query)
 
   return (
     <ThemeProvider theme={theme}>
-      <div>
+      <SiteWrapper>
         <GlobalStyles />
-        <SiteNav as="nav" flexWrap="nowrap" flexDirection="row">
+        <SiteNav>
           <LogoWrapper>
             <Logo height={theme.siteNavbarHeight.normal} />
           </LogoWrapper>
@@ -276,41 +198,8 @@ const Layout = ({ children, color }) => {
             ))}
           </SiteNavLinks>
         </SiteNav>
-        <Wrapper>
-          <Sidebar>
-            <Toolbar color={color} as="aside" p={[1, 1, 4]}>
-              <Flex
-                flexWrap="nowrap"
-                alignItems="flex-start"
-                justifyContent="space-between"
-              >
-                <ToolbarInner
-                  color={color}
-                  fontSize={[0]}
-                  flexWrap="nowrap"
-                  alignItems="flex-start"
-                >
-                  {data.tags.edges.map(({ node: item }) => (
-                    <ToolbarCheckbox
-                      key={item.title}
-                      space={[1]}
-                      title={item.title}
-                    >
-                      {item.title}
-                    </ToolbarCheckbox>
-                  ))}
-                </ToolbarInner>
-              </Flex>
-            </Toolbar>
-            <Footer color={color}>
-              <Box p={[1, 1, 3]} fontSize={0}>
-                Donate to Pete For America Here.
-              </Box>
-            </Footer>
-          </Sidebar>
-          <Main>{children}</Main>
-        </Wrapper>
-      </div>
+        <Main>{children}</Main>
+      </SiteWrapper>
     </ThemeProvider>
   )
 }
@@ -324,13 +213,6 @@ const query = graphql`
         node {
           name
           link
-        }
-      }
-    }
-    tags: allTagsYaml {
-      edges {
-        node {
-          title
         }
       }
     }
