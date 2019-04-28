@@ -7,6 +7,7 @@ import theme from "../../config/theme"
 import reset from "../styles/reset"
 import Logo from "./logo"
 import ToolbarCheckbox from "./toolbar-checkbox"
+import DataProvider from "../components/data-provider"
 
 const GlobalStyles = createGlobalStyle`
   *::before,
@@ -262,55 +263,57 @@ const Layout = ({ children, color }) => {
 
   return (
     <ThemeProvider theme={theme}>
-      <div>
-        <GlobalStyles />
-        <SiteNav as="nav" flexWrap="nowrap" flexDirection="row">
-          <LogoWrapper>
-            <Logo height={theme.siteNavbarHeight.normal} />
-          </LogoWrapper>
-          <SiteNavLinks>
-            {data.navigation.edges.map(({ node: item }) => (
-              <PartialNavLink to={item.link} key={item.name}>
-                {item.name}
-              </PartialNavLink>
-            ))}
-          </SiteNavLinks>
-        </SiteNav>
-        <Wrapper>
-          <Sidebar>
-            <Toolbar color={color} as="aside" p={[1, 1, 4]}>
-              <Flex
-                flexWrap="nowrap"
-                alignItems="flex-start"
-                justifyContent="space-between"
-              >
-                <ToolbarInner
-                  color={color}
-                  fontSize={[0]}
+      <DataProvider filters={{ extension: ["jpg", "png"] }}>
+        <div>
+          <GlobalStyles />
+          <SiteNav as="nav" flexWrap="nowrap" flexDirection="row">
+            <LogoWrapper>
+              <Logo height={theme.siteNavbarHeight.normal} />
+            </LogoWrapper>
+            <SiteNavLinks>
+              {data.navigation.edges.map(({ node: item }) => (
+                <PartialNavLink to={item.link} key={item.name}>
+                  {item.name}
+                </PartialNavLink>
+              ))}
+            </SiteNavLinks>
+          </SiteNav>
+          <Wrapper>
+            <Sidebar>
+              <Toolbar color={color} as="aside" p={[1, 1, 4]}>
+                <Flex
                   flexWrap="nowrap"
                   alignItems="flex-start"
+                  justifyContent="space-between"
                 >
-                  {data.tags.edges.map(({ node: item }) => (
-                    <ToolbarCheckbox
-                      key={item.title}
-                      space={[1]}
-                      title={item.title}
-                    >
-                      {item.title}
-                    </ToolbarCheckbox>
-                  ))}
-                </ToolbarInner>
-              </Flex>
-            </Toolbar>
-            <Footer color={color}>
-              <Box p={[1, 1, 3]} fontSize={0}>
-                Donate to Pete For America Here.
-              </Box>
-            </Footer>
-          </Sidebar>
-          <Main>{children}</Main>
-        </Wrapper>
-      </div>
+                  <ToolbarInner
+                    color={color}
+                    fontSize={[0]}
+                    flexWrap="nowrap"
+                    alignItems="flex-start"
+                  >
+                    {data.tags.edges.map(({ node: item }) => (
+                      <ToolbarCheckbox
+                        key={item.title}
+                        space={[1]}
+                        title={item.title}
+                      >
+                        {item.title}
+                      </ToolbarCheckbox>
+                    ))}
+                  </ToolbarInner>
+                </Flex>
+              </Toolbar>
+              <Footer color={color}>
+                <Box p={[1, 1, 3]} fontSize={0}>
+                  Donate to Pete For America Here.
+                </Box>
+              </Footer>
+            </Sidebar>
+            <Main>{children}</Main>
+          </Wrapper>
+        </div>
+      </DataProvider>
     </ThemeProvider>
   )
 }
