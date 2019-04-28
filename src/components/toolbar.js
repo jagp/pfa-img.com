@@ -52,9 +52,8 @@ const ToolbarInner = styled(Box)`
     width: 100%;
   }
 `
-const Toolbar = ({ color }) => {
+const Toolbar = ({ color, filters, toggleToolbarItem }) => {
   const data = useStaticQuery(query)
-
   return (
     <StyledToolbar>
       <ToolbarInner
@@ -64,7 +63,13 @@ const Toolbar = ({ color }) => {
         alignItems="flex-start"
       >
         {data.tags.edges.map(({ node: item }) => (
-          <ToolbarCheckbox key={item.title} space={[1]} title={item.title}>
+          <ToolbarCheckbox
+            key={item.title}
+            space={[1]}
+            title={item.title}
+            checked={filters.extension.find(ext => ext === item.title)}
+            toggleToolbarItem={toggleToolbarItem}
+          >
             {item.title}
           </ToolbarCheckbox>
         ))}

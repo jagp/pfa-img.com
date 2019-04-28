@@ -90,15 +90,17 @@ const Checkbox = ({ className, checked, ...props }) => (
 )
 
 class SimulatedCheckbox extends React.Component {
-  state = { checked: false }
-  handleCheckboxChange = event =>
-    this.setState({ checked: event.target.checked })
+  //state = { checked: false }
+
+  toggleToolbarItem = event =>
+    this.props.toggleToolbarItem(event.target.checked) //this.setState({ checked: event.target.checked })
+
   render() {
     return (
       <ToolbarItemHolder>
         <Checkbox
-          checked={this.state.checked}
-          onChange={this.handleCheckboxChange}
+          checked={this.props.checked}
+          onChange={this.toggleToolbarItem}
         />
         <span className="title">{this.props.title}</span>
       </ToolbarItemHolder>

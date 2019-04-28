@@ -64,8 +64,23 @@ const Grid = styled.div`
 `
 
 class Index extends React.Component {
-  // Placeholder initial filters, these will be null to begin
-  state = { filters: { extension: ["png"] } }
+  constructor(props) {
+    super(props)
+    this.addExtensionFilter = this.addExtensionFilter.bind(this)
+    // Placeholder initial filters, these will be null to begin
+    this.state = {
+      //filters: { extension: ["png"], tags: [""], size: [""] }
+      filters: { extension: ["png", "jpg"] }
+    }
+  }
+
+  addExtensionFilter(e) {
+    console.log(e)
+    this.setState(state => ({
+      //filters: { ...state.filters, extension: e.extension }
+      filters: { extension: ["png"] }
+    }))
+  }
 
   formatName = uglyName =>
     sanitizeFilename(uglyName, { replacement: "" }).replace(/[-_]/g, " ")
@@ -78,7 +93,13 @@ class Index extends React.Component {
       <Layout>
         <SEO />
         <Sidebar>
-          <Toolbar color={color} as="aside" p={[1, 1, 4]} />
+          <Toolbar
+            color={color}
+            as="aside"
+            p={[1, 1, 4]}
+            filters={this.state.filters}
+            toggleToolbarItem={this.addExtensionFilter}
+          />
           <Footer color={color}>
             <Box p={[1, 1, 3]} fontSize={0}>
               Donate to Pete For America Here.
