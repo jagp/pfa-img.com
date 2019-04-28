@@ -8,7 +8,6 @@ import GridItem from "../components/grid-item"
 import MainImageWrapper from "../components/main-image-wrapper"
 import SEO from "../components/SEO"
 import * as sanitizeFilename from "sanitize-filename"
-
 //import { ChildImageSharp } from "../types"
 
 import "../styles/ugly-quick-fix.css"
@@ -42,7 +41,8 @@ class Index extends React.Component {
     sanitizeFilename(uglyName, { replacement: "" }).replace(/[-_]/g, " ")
 
   render() {
-    const { data, filters } = this.props
+    const { data } = this.props
+    const { filters } = this.state
 
     return (
       <Layout>
@@ -54,7 +54,7 @@ class Index extends React.Component {
                 key={node.id}
                 to="#"
                 /* Searches for the current node's extension in the list of filtered extensions */
-                visible={true}
+                visible={!filters.extension.find(ext => ext === node.extension)}
               >
                 <MainImageWrapper
                   title={this.formatName(node.name)}
@@ -62,6 +62,10 @@ class Index extends React.Component {
                   tags={["tag1", "tag2"]}
                   size={node.prettySize}
                 >
+                  {/* Ugly but I'm leaving this in for now:
+                <p>{node.name} : {node.hasOwnProperty( "childImageSharp" ) ? "TRUE" : "FALSE"}</p>
+                {node.hasOwnProperty( "childImageSharp" ) ? (<Img fixed={node.childImageSharp.fixed} />) : (console.log(node.name)) }}
+              */}
                   <Img fixed={node.childImageSharp.fixed} />
                 </MainImageWrapper>
               </GridItem>
