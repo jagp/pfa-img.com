@@ -190,6 +190,19 @@ export const query = graphql`
         }
       }
     }
+    categories: allDirectory(
+      filter: {
+        sourceInstanceName: { eq: "imageRepo" }
+        relativePath: { ne: "" }
+      }
+    ) {
+      edges {
+        node {
+          relativePath
+          name
+        }
+      }
+    }
     tags: allTagsYaml {
       edges {
         node {
