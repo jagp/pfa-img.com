@@ -127,10 +127,10 @@ class Index extends React.Component {
               <GridItem
                 key={node.id}
                 to="#"
-                /* Searches for the current node's extension in the list of filtered extensions */
                 visible={filters.extension[node.extension]}
               >
                 <MainImageWrapper
+                  className={node.extension}
                   title={this.formatName(node.name)}
                   format={node.extension}
                   tags={["tag1", "tag2"]}
