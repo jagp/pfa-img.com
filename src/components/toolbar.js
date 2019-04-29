@@ -89,5 +89,12 @@ const query = graphql`
         }
       }
     }
+    extensions: allExtensionsYaml {
+      edges {
+        node {
+          title
+        }
+      }
+    }
   }
 `

@@ -67,10 +67,21 @@ class Index extends React.Component {
   constructor(props) {
     super(props)
     this.toggleToolbarItem = this.toggleToolbarItem.bind(this)
+
+    this.props.data.extensions.edges.map(
+      ({ node }) => (this.defaultExtensions[node.title] = true)
+    )
+    this.props.data.tags.edges.map(
+      ({ node }) => (this.defaultTags[node.title] = true)
+    )
+    console.log(this.defaultExtensions)
     // Placeholder initial filters, these will be null to begin
     this.state = {
       //filters: { extension: ["png"], tags: [""], size: [""] }
-      filters: { extension: { png: true, jpg: true } }
+      filters: {
+        extensions: this.defaultExtensions,
+        tags: this.defaultTags
+      }
     }
   }
 
@@ -176,6 +187,20 @@ export const query = graphql`
       edges {
         node {
           ...imageFields
+        }
+      }
+    }
+    tags: allTagsYaml {
+      edges {
+        node {
+          title
+        }
+      }
+    }
+    extensions: allExtensionsYaml {
+      edges {
+        node {
+          title
         }
       }
     }
