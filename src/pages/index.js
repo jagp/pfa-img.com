@@ -67,33 +67,58 @@ class Index extends React.Component {
   constructor(props) {
     super(props)
     this.toggleToolbarItem = this.toggleToolbarItem.bind(this)
-
+    this.defaultExtensions = {}
+    this.defaultTags = {}
+    this.defaultCategories = {}
+    // Construct the intiial state objects from the data source
     this.props.data.extensions.edges.map(
       ({ node }) => (this.defaultExtensions[node.title] = true)
     )
     this.props.data.tags.edges.map(
       ({ node }) => (this.defaultTags[node.title] = true)
     )
-    console.log(this.defaultExtensions)
-    // Placeholder initial filters, these will be null to begin
+    this.props.data.categories.edges.map(
+      ({ node }) => (this.defaultCategories[node.relativePath] = true)
+    )
     this.state = {
-      //filters: { extension: ["png"], tags: [""], size: [""] }
       filters: {
         extensions: this.defaultExtensions,
-        tags: this.defaultTags
+        tags: this.defaultTags,
+        categories: this.defaultCategories
       }
     }
+    console.log(this.state.filters)
   }
 
-  toggleToolbarItem(e, data) {
-    console.log(e, data)
+  toggleToolbarItem(e, filterValue, filterType) {
     this.setState(state => {
       //filters: { ...state.filters, extension: e.extension }
-      const newExtensions = state.filters.extension
-      //data currently is just the name/title of the extensions, this needs refactor
-      newExtensions[data] = !newExtensions[data]
+      const newExtensions = state.filters.extensions
+      const newTags = state.filters.tags
+      const newCategories = state.filters.categories
 
-      return { filters: { extension: newExtensions } }
+      // This should be refactored with spread operator to replace only needed elements
+      if (filterType === "extension") {
+        newExtensions[filterValue] = !newExtensions[filterValue]
+      }
+      if (filterType === "tag") {
+        newTags[filterValue] = !newTags[filterValue]
+      }
+      if (filterType === "category") {
+        newCategories[filterValue] = !newCategories[filterValue]
+      }
+
+      const newFilters = {
+        filters: {
+          extensions: newExtensions,
+          categories: newCategories,
+          tags: newTags
+        }
+      }
+
+      console.log(e, filterValue, filterType, newFilters)
+
+      return { newFilters }
     })
   }
 
@@ -123,17 +148,21 @@ class Index extends React.Component {
         </Sidebar>
         <GridWrapper>
           <Grid>
-            {data.memes.edges.map(({ node }) => (
+            {data.publicImages.edges.map(({ node }) => (
               <GridItem
                 key={node.id}
                 to="#"
-                visible={filters.extension[node.extension]}
+                visible={
+                  filters.extensions[node.extension] &&
+                  filters.categories[node.relativeDirectory]
+                }
               >
                 <MainImageWrapper
                   className={node.extension}
                   title={this.formatName(node.name)}
                   format={node.extension}
                   tags={["tag1", "tag2"]}
+                  category={node.relativeDirectory}
                   size={node.prettySize}
                 >
                   <Img fixed={node.childImageSharp.fixed} />
@@ -151,38 +180,7 @@ export default Index
 
 export const query = graphql`
   query {
-    memes: allFile(
-      filter: {
-        sourceInstanceName: { eq: "imageRepo" }
-        relativeDirectory: { eq: "memes" }
-      }
-    ) {
-      totalCount
-      edges {
-        node {
-          ...imageFields
-        }
-      }
-    }
-    postedMemes: allFile(
-      filter: {
-        sourceInstanceName: { eq: "imageRepo" }
-        relativeDirectory: { eq: "posted-memes" }
-      }
-    ) {
-      totalCount
-      edges {
-        node {
-          ...imageFields
-        }
-      }
-    }
-    jaredsImages: allFile(
-      filter: {
-        sourceInstanceName: { eq: "imageRepo" }
-        relativeDirectory: { eq: "jagp" }
-      }
-    ) {
+    publicImages: allFile(filter: { sourceInstanceName: { eq: "imageRepo" } }) {
       totalCount
       edges {
         node {

@@ -68,6 +68,15 @@ const ImageStatsHolder = styled.div`
   .title {
     width: 80%;
   }
+  .category {
+    position: absolute;
+    right: 0;
+    bottom: 7px;
+    text-transform: uppercase;
+    p {
+      font-size: 55%;
+    }
+  }
   .format {
     width: 10%;
   }
@@ -98,7 +107,14 @@ const OverlayData = ({ tags }) => (
   </aside>
 )
 
-const MainImageWrapper = ({ title, format, tags, size, children }) => (
+const MainImageWrapper = ({
+  title,
+  format,
+  tags,
+  size,
+  category,
+  children
+}) => (
   <ImageContainer>
     <ImageHolder>
       <ImageOverlay>
@@ -112,6 +128,9 @@ const MainImageWrapper = ({ title, format, tags, size, children }) => (
       </div>
       <div className="format">
         <p>{format}</p>
+      </div>
+      <div className="category">
+        <p>{category}</p>
       </div>
       <DownloadIcon>
         <img src="/download-icon.png" />

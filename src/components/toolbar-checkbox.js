@@ -96,7 +96,11 @@ class SimulatedCheckbox extends React.Component {
   }
 
   toggleToolbarItem = event =>
-    this.props.toggleToolbarItem(event.target.checked, this.props.title) //this.setState({ checked: event.target.checked })
+    this.props.toggleToolbarItem(
+      event.target.checked,
+      this.props.title,
+      this.props.filterType
+    ) //this.setState({ checked: event.target.checked })
 
   render() {
     return (

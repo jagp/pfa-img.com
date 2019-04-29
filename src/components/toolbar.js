@@ -67,7 +67,20 @@ const Toolbar = ({ color, filters, toggleToolbarItem }) => {
             key={item.title}
             space={[1]}
             title={item.title}
-            checked={filters.extension[item.title]}
+            checked={filters.extensions[item.title]}
+            filterType="extension"
+            toggleToolbarItem={toggleToolbarItem}
+          >
+            {item.title}
+          </ToolbarCheckbox>
+        ))}
+        {data.categories.edges.map(({ node: item }) => (
+          <ToolbarCheckbox
+            key={item.title}
+            space={[1]}
+            title={item.relativePath}
+            checked={filters.categories[item.relativePath]}
+            filterType="category"
             toggleToolbarItem={toggleToolbarItem}
           >
             {item.title}
@@ -93,6 +106,19 @@ const query = graphql`
       edges {
         node {
           title
+        }
+      }
+    }
+    categories: allDirectory(
+      filter: {
+        sourceInstanceName: { eq: "imageRepo" }
+        relativePath: { ne: "" }
+      }
+    ) {
+      edges {
+        node {
+          relativePath
+          name
         }
       }
     }
